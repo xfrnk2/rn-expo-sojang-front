@@ -6,9 +6,12 @@ import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
 
+import axios from "axios";
+
 const GoogleMap = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [stores, setStores] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -21,6 +24,39 @@ const GoogleMap = () => {
       let currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
     })();
+
+    (async () => {
+      try {
+        const response = await axios.get(
+          "https://4cca-219-255-155-95.ngrok-free.app/store",
+          (headers = {
+            // "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+          })
+        );
+
+        const data = response.data;
+        console.log(data);
+        setStores(data);
+        console.log(stores);
+      } catch (err) {
+        console.log(err);
+        console.log(err.name);
+        console.log(err.message);
+        console.log(err.stack);
+      }
+    })();
+
+    //   await axios
+    //     .get("127.0.0.1:3000/store")
+    //     .then((response) => {
+    //       const data = response.data;
+    //       console.log(data);
+    //       setStores(data);
+    //       console.log(stores);
+    //     })
+    //     .catch((error) => console.log(error));
+    // })();
   }, []);
 
   let lag = 0;
@@ -33,6 +69,19 @@ const GoogleMap = () => {
     console.log(location.coords.longitude);
     lag = location.coords.latitude;
     log = location.coords.longitude;
+
+    // const markerComponents = stores.map((marker, index) => (
+    //   <CustomMarker
+    //     key={index} // 고유한 키 값 설정
+    //     coordinate={{
+    //       latitude: marker.lat,
+    //       longitude: marker.lon,
+    //     }}
+    //     id={marker.id}
+    //     nM={marker.nM}
+    //     anchor={{ x: 0.5, y: 1 }}
+    //   />
+    // ));
   }
 
   return (
@@ -57,10 +106,23 @@ const GoogleMap = () => {
             title="하이"
             description="내용"
           /> */}
-          <CustomMarker
+          {/* <CustomMarker
             coordinate={{ latitude: lag, longitude: log }}
             anchor={{ x: 0.5, y: 1 }}
-          ></CustomMarker>
+          ></CustomMarker> */}
+          {/* <View>{stores}</View>; */}
+          {stores.map((marker, index) => (
+            <CustomMarker
+              key={index} // 고유한 키 값 설정
+              coordinate={{
+                latitude: marker.lat,
+                longitude: marker.lon,
+              }}
+              id={marker.id}
+              nM={marker.nM}
+              anchor={{ x: 0.5, y: 1 }}
+            />
+          ))}
         </MapView>
       )}
     </View>
