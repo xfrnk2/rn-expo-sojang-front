@@ -1,13 +1,17 @@
 import { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 //import MapView from "react-native-maps";
 import MapView from "react-native-map-clustering";
-import { StyleSheet, View, Button } from "react-native";
+import { StyleSheet, View, Button, Dimensions } from "react-native";
 
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
 
 import axios from "axios";
+
+const { width, height } = Dimensions.get("window");
+const CARD_HEIGHT = 220;
+const CARD_WIDTH = width * 0.8;
 
 const GoogleMap = () => {
   const [location, setLocation] = useState(null);
@@ -29,7 +33,7 @@ const GoogleMap = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://d342-219-255-155-95.ngrok-free.app/store",
+          "https://7b1e-219-255-155-95.ngrok-free.app/store",
           (headers = {
             // "Content-Type": "multipart/form-data",
             Accept: "application/json",
@@ -98,6 +102,8 @@ const GoogleMap = () => {
           }}
           provider={PROVIDER_GOOGLE}
           clusterColor="#000000"
+          maxZoom={10}
+          minZoom={5}
         >
           {/* <Marker
             coordinate={{
@@ -139,5 +145,20 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  card: {
+    // padding: 10,
+    elevation: 2,
+    backgroundColor: "#FFF",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowOffset: { x: 2, y: -2 },
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    overflow: "hidden",
   },
 });
