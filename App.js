@@ -1,90 +1,38 @@
-import QRCode from "react-native-qrcode-svg";
-import GoalItem from "./components/GoalItem";
-import GoalInput from "./components/GoalInput";
-import GoogleMap from "./GoogleMap";
+// App.tsx
 
-import React, { useState, useEffect } from "react";
-import { Platform, Text, View, StyleSheet } from "react-native";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native"; // 전체 네비게이션을 감싸는 컨테이너 불러오기
+import { createStackNavigator } from "@react-navigation/stack"; // 스택 네비게이션 라이브러리 불러오기
 
-import * as Location from "expo-location";
+// 각각 보여줄 화면들 불러오기
+import Home from "./screens/Home";
+import Login from "./screens/Login";
 
+// 스택 네비게이션 만들기
+const Stack = createStackNavigator();
+
+/*
+  NavigationContainer을 사용해, 전체 네비게이션을 감싼다.
+  Stack.Navigator을 사용해, 스택 네비게이션으로 보여줄 화면을 감싼다.
+  Stack.Screen을 사용해, 스택 네비게이션으로 보여줄 화면(React 컴포넌트 형식)을 지정해준다.
+  
+  스택 네이게이션은, 기본적으로 맨위에 작성한 화면을 보여준다. (메인화면)
+*/
 export default function App() {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [courseGoals, setCourseGoals] = useState([]);
-
-  function startAddGoalHandler() {
-    setModalIsVisible(true);
-  }
-
-  function endAddGoalHandler() {
-    setModalIsVisible(false);
-  }
-
-  function addGoalHandler(enteredGoalText) {
-    setCourseGoals((currentCourseGoals) => [
-      ...currentCourseGoals,
-      { text: enteredGoalText, id: Math.random().toString() },
-    ]);
-  }
-
-  function deleteGoalHandler(id) {
-    setCourseGoals((currentCourseGoals) => {
-      return currentCourseGoals.filter((goal) => goal.id !== id);
-    });
-  }
-
   return (
-    <View style={styles.appContainer}>
-      <QRCode value="https://naver.com" style={styles.qrCode} />
-      <GoogleMap />
-      {/* <View style={styles.appContainer}>
-        <Text style={styles.paragraph}>{text}</Text>
-      </View> */}
-      {/* <Button
-        title="Add New Goal"
-        color="#5e0acc"
-        onPress={startAddGoalHandler}
-      />
-      <GoalInput
-        visible={modalIsVisible}
-        onAddGoal={addGoalHandler}
-        onCancel={endAddGoalHandler}
-      />
-
-      <View style={styles.goalsContainer}>
-        <FlatList
-          data={courseGoals}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem
-                text={itemData.item.text}
-                id={itemData.item.id}
-                onDeleteItem={deleteGoalHandler}
-              />
-            );
-          }}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
-          alwaysBounceVertical={false}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ title: "My Home" }}
         />
-      </View> */}
-    </View>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ title: "로그인" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    padding: 50,
-    paddingHorizontal: 16,
-  },
-
-  goalsContainer: {
-    flex: 5,
-  },
-
-  qrCode: {
-    flex: 1,
-  },
-});
