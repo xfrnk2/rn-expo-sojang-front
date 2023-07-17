@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Button, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-
+import MapScreen from "./MapScreen";
 const Tab = createBottomTabNavigator();
 
 function MainScreen() {
@@ -11,7 +11,7 @@ function MainScreen() {
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: "#fb8c00",
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
       }}
     >
       <Tab.Screen
@@ -25,10 +25,20 @@ function MainScreen() {
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={SearchScreen}
+        name="Map"
+        component={MapScreen}
         options={{
-          title: "알림",
+          title: "음식점",
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="notifications" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Map2"
+        component={MapScreen}
+        options={{
+          title: "생활시설",
           tabBarIcon: ({ color, size }) => (
             <Icon name="notifications" color={color} size={size} />
           ),
@@ -67,10 +77,6 @@ function HomeScreen({ navigation }) {
       />
     </View>
   );
-}
-
-function SearchScreen() {
-  return <Text>Search</Text>;
 }
 
 function NotificationScreen() {
