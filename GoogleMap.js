@@ -1,7 +1,16 @@
 import { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 //import MapView from "react-native-maps";
 import MapView from "react-native-map-clustering";
-import { StyleSheet, View, Button, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Button,
+  Dimensions,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import ModalTest from "./components/ModalTest";
 
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
@@ -17,6 +26,17 @@ const GoogleMap = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [stores, setStores] = useState([]);
+  const [detailVisible, setDetailVisible] = useState(false);
+
+  const showDetail = (event) => {
+    console.log("showdetail");
+    setDetailVisible(true);
+  };
+
+  const unShowDetail = (event) => {
+    console.log("unshowdetail");
+    setDetailVisible(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -33,7 +53,7 @@ const GoogleMap = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://7b1e-219-255-155-95.ngrok-free.app/store",
+          "https://5c4e-219-255-155-95.ngrok-free.app/store",
           (headers = {
             // "Content-Type": "multipart/form-data",
             Accept: "application/json",
@@ -89,8 +109,11 @@ const GoogleMap = () => {
     // ));
   }
 
+  const popUp = (event) => {};
+
   return (
     <View style={styles.screen}>
+      <ModalTest visible={detailVisible} unShowDetail={unShowDetail} />
       {lag !== 0 && log !== 0 && (
         <MapView
           style={styles.map}
@@ -102,8 +125,9 @@ const GoogleMap = () => {
           }}
           provider={PROVIDER_GOOGLE}
           clusterColor="#000000"
-          maxZoom={10}
+          maxZoom={12}
           minZoom={5}
+          onPress={(e) => unShowDetail(e)}
         >
           {/* <Marker
             coordinate={{
@@ -120,19 +144,88 @@ const GoogleMap = () => {
           ></CustomMarker> */}
           {/* <View>{stores}</View>; */}
           {stores.map((marker, index) => (
-            <CustomMarker
-              key={index} // 고유한 키 값 설정
+            // <CustomMarker
+            //   key={index} // 고유한 키 값 설정
+            //   coordinate={{
+            //     latitude: marker.lat,
+            //     longitude: marker.lon,
+            //   }}
+            //   onpress={}
+            //   id={marker.id}
+            //   nM={marker.nM}
+            //   anchor={{ x: 0.5, y: 1 }}
+            //   showsUserLocation
+            //   loadingEnabled
+            //   showsMyLocationButton
+            // />
+
+            <Marker
+              key={index}
               coordinate={{
                 latitude: marker.lat,
                 longitude: marker.lon,
               }}
               id={marker.id}
               nM={marker.nM}
+              pinColor="#2D63E2"
+              title={marker.id}
+              description={marker.nM}
               anchor={{ x: 0.5, y: 1 }}
-            />
+              showsUserLocation
+              loadingEnabled
+              showsMyLocationButton
+              onPress={(e) => showDetail(e)}
+              tracksViewChanges={false}
+            >
+              <Image
+                source={require("./assets/marker/map_marker_auth_bright.png")}
+                style={{ width: 50, height: 50 }}
+              />
+            </Marker>
           ))}
         </MapView>
       )}
+      <View style={(styles.cardContainer, { zIndex: 999 })}>
+        {detailVisible && (
+          <View style={styles.card}>
+            <View style={styles.cardContent}>
+              <Image style={styles.cardImage} resizeMode="cover" />
+              <View style={styles.textContent}>
+                <Text numberOfLines={1} style={styles.cardtitle}>
+                  123
+                </Text>
+
+                <Text numberOfLines={1} style={styles.cardDescription}>
+                  des
+                </Text>
+                <View style={styles.button}>
+                  <TouchableOpacity
+                    onPress={() => {}}
+                    style={[
+                      styles.signIn,
+                      {
+                        borderColor: "#FF6347",
+                        borderWidth: 1,
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.textSign,
+                        {
+                          color: "#FF6347",
+                        },
+                      ]}
+                    >
+                      Order Now
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        )}
+      </View>
     </View>
   );
 };
@@ -140,19 +233,23 @@ const GoogleMap = () => {
 export default GoogleMap;
 
 const styles = StyleSheet.create({
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
   screen: {
     flex: 1,
   },
-  map: {
-    flex: 1,
+  cardContainer: { flexDirection: "column-reverse" },
+  cardContainerUp: {
+    flex: 2,
   },
   card: {
-    // padding: 10,
+    padding: 10,
     elevation: 2,
     backgroundColor: "#FFF",
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    marginHorizontal: 10,
+
     shadowColor: "#000",
     shadowRadius: 5,
     shadowOpacity: 0.3,
@@ -160,5 +257,20 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
     overflow: "hidden",
+    flexDirection: "column-reverse",
+  },
+  cardContent: {
+    flexDirection: "row",
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textContent: {
+    flex: 2,
+    padding: 10,
+  },
+  textSign: {
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });

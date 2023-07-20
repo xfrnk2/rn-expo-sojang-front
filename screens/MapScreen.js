@@ -368,6 +368,7 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: 10,
   },
+
   cardtitle: {
     fontSize: 12,
     // marginTop: 5,
