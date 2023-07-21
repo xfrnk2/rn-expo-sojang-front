@@ -1,90 +1,121 @@
 import QRCode from "react-native-qrcode-svg";
 import GoalItem from "./components/GoalItem";
-import GoalInput from "./components/GoalInput";
+
 import GoogleMap from "./GoogleMap";
+import ModalTest from "./components/ModalTest";
 
 import React, { useState, useEffect } from "react";
-import { Platform, Text, View, StyleSheet } from "react-native";
+import {
+  Platform,
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Button,
+  Image,
+} from "react-native";
 
 import * as Location from "expo-location";
-
+import SwipeUpDownModal from "react-native-swipe-modal-up-down";
 export default function App() {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [courseGoals, setCourseGoals] = useState([]);
+  let [ShowComment, setShowModelComment] = useState(true);
+  let [animateModal, setanimateModal] = useState(false);
 
-  function startAddGoalHandler() {
-    setModalIsVisible(true);
-  }
-
-  function endAddGoalHandler() {
-    setModalIsVisible(false);
-  }
-
-  function addGoalHandler(enteredGoalText) {
-    setCourseGoals((currentCourseGoals) => [
-      ...currentCourseGoals,
-      { text: enteredGoalText, id: Math.random().toString() },
-    ]);
-  }
-
-  function deleteGoalHandler(id) {
-    setCourseGoals((currentCourseGoals) => {
-      return currentCourseGoals.filter((goal) => goal.id !== id);
-    });
-  }
+  const handler = () => {
+    setShowModelComment(true);
+  };
 
   return (
-    <View style={styles.appContainer}>
-      <QRCode value="https://naver.com" style={styles.qrCode} />
-      <GoogleMap />
-      {/* <View style={styles.appContainer}>
-        <Text style={styles.paragraph}>{text}</Text>
-      </View> */}
-      {/* <Button
-        title="Add New Goal"
-        color="#5e0acc"
-        onPress={startAddGoalHandler}
-      />
-      <GoalInput
-        visible={modalIsVisible}
-        onAddGoal={addGoalHandler}
-        onCancel={endAddGoalHandler}
-      />
-
-      <View style={styles.goalsContainer}>
-        <FlatList
-          data={courseGoals}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem
-                text={itemData.item.text}
-                id={itemData.item.id}
-                onDeleteItem={deleteGoalHandler}
-              />
-            );
+    // <View style={styles.appContainer}>
+    //   {/* <QRCode value="https://naver.com" style={styles.qrCode} /> */}
+    //   {/* <GoogleMap /> */}
+    // </View>
+    <View style={{ flex: 1 }}>
+      <View style={{ marginBottom: 200 }}>
+        <Text>asdfasdfasdf</Text>
+        <Button
+          title="123123"
+          onPress={() => {
+            setShowModelComment(true);
           }}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
-          alwaysBounceVertical={false}
-        />
-      </View> */}
+          style={{ flex: 1, marginBottom: 300 }}
+        ></Button>
+      </View>
+      <SwipeUpDownModal
+        fade={true}
+        PressToanimateDirection={"down"}
+        modalVisible={ShowComment}
+        PressToanimate={animateModal}
+        //if you don't pass HeaderContent you should pass marginTop in view of ContentModel to Make modal swipeable
+        ContentModal={
+          <View style={styles.containerContent}>
+            {/* <FlatList
+            data={data}
+            renderItem={({ item, index }) => <item key={index} Data={item} />}
+            keyExtractor={(item) => item.id}
+          /> */}
+            <Text>333</Text>
+          </View>
+        }
+        ImageBackgroundModal={require("./assets/saks.png")}
+        ImageBackgroundModalStyle={styles.imageBackgroundModalStyle}
+        eaderStyle={styles.headerContent}
+        ContentModalStyle={styles.Modal}
+        HeaderContent={
+          <View style={styles.containerHeader}>
+            <Button
+              title={"Press Me"}
+              onPress={() => {
+                setanimateModal(true);
+              }}
+            />
+          </View>
+        }
+        onClose={() => {
+          setShowModelComment(false);
+          setanimateModal(false);
+        }}
+      />
     </View>
   );
 }
 
+// const styles = StyleSheet.create({
+//   appContainer: {
+//     flex: 1,
+//   },
+
+//   goalsContainer: {
+//     flex: 5,
+//   },
+
+//   qrCode: {
+//     flex: 1,
+//   },
+// });
+
 const styles = StyleSheet.create({
-  appContainer: {
+  containerContent: { flex: 1, marginTop: 40 },
+  containerHeader: {
     flex: 1,
-    padding: 50,
-    paddingHorizontal: 16,
+    alignContent: "center",
+    alignItems: "space-between",
+    justifyContent: "center",
+    height: 50,
+    marginTop: 450,
+    backgroundColor: "#F1F1F1",
+    // opacity: 0.4,
   },
-
-  goalsContainer: {
-    flex: 5,
+  headerContent: {
+    marginTop: 10,
   },
-
-  qrCode: {
+  Modal: {
+    backgroundColor: "#005252",
+    marginTop: 500,
     flex: 1,
+  },
+  imageBackgroundModalStyle: {
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
 });
