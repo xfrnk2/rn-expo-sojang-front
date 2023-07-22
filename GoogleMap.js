@@ -20,7 +20,7 @@ import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.8;
+const CARD_WIDTH = width * 0.95;
 
 const GoogleMap = () => {
   const [location, setLocation] = useState(null);
@@ -53,7 +53,7 @@ const GoogleMap = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://5c4e-219-255-155-95.ngrok-free.app/store",
+          "https://b830-219-255-155-95.ngrok-free.app/store",
           (headers = {
             // "Content-Type": "multipart/form-data",
             Accept: "application/json",
@@ -113,7 +113,8 @@ const GoogleMap = () => {
 
   return (
     <View style={styles.screen}>
-      <ModalTest visible={detailVisible} unShowDetail={unShowDetail} />
+      {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
+
       {lag !== 0 && log !== 0 && (
         <MapView
           style={styles.map}
@@ -185,46 +186,51 @@ const GoogleMap = () => {
           ))}
         </MapView>
       )}
-      <View style={(styles.cardContainer, { zIndex: 999 })}>
-        {detailVisible && (
-          <View style={styles.card}>
-            <View style={styles.cardContent}>
-              <Image style={styles.cardImage} resizeMode="cover" />
-              <View style={styles.textContent}>
-                <Text numberOfLines={1} style={styles.cardtitle}>
-                  123
-                </Text>
+      <View style={{}}>
+        <View style={[]}>
+          <Text>55555555555</Text>
+        </View>
+        <View style={[styles.cardContainer, { zIndex: 999 }]}>
+          {detailVisible && (
+            <View style={styles.card}>
+              <View style={styles.cardContent}>
+                <Image style={styles.cardImage} resizeMode="cover" />
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>
+                    123
+                  </Text>
 
-                <Text numberOfLines={1} style={styles.cardDescription}>
-                  des
-                </Text>
-                <View style={styles.button}>
-                  <TouchableOpacity
-                    onPress={() => {}}
-                    style={[
-                      styles.signIn,
-                      {
-                        borderColor: "#FF6347",
-                        borderWidth: 1,
-                      },
-                    ]}
-                  >
-                    <Text
+                  <Text numberOfLines={1} style={styles.cardDescription}>
+                    des
+                  </Text>
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      onPress={() => {}}
                       style={[
-                        styles.textSign,
+                        styles.signIn,
                         {
-                          color: "#FF6347",
+                          borderColor: "#FF6347",
+                          borderWidth: 1,
                         },
                       ]}
                     >
-                      Order Now
-                    </Text>
-                  </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.textSign,
+                          {
+                            color: "#FF6347",
+                          },
+                        ]}
+                      >
+                        Order Now
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        )}
+          )}
+        </View>
       </View>
     </View>
   );
@@ -234,22 +240,30 @@ export default GoogleMap;
 
 const styles = StyleSheet.create({
   map: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
+    flex: 1,
   },
   screen: {
     flex: 1,
   },
-  cardContainer: { flexDirection: "column-reverse" },
-  cardContainerUp: {
-    flex: 2,
+  cardContainer: {
+    flex: 1,
+    flexDirection: "column-reverse",
   },
+  cardContainerUp: {},
   card: {
+    // justifyContent: "flex-end",
     padding: 10,
     elevation: 2,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    borderBottomLeftRadius: 35,
+    borderBottomRightRadius: 35,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
     shadowColor: "#000",
     shadowRadius: 5,
     shadowOpacity: 0.3,
