@@ -36,6 +36,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-svg": "13.4.0",
     "react-native-swipe-modal-up-down": "^1.1.0",
+    "react-native-vector-icons": "^10.0.0",
     "react-native-web": "^0.19.6",
     "rn-sliding-up-panel": "^2.4.6"
   },

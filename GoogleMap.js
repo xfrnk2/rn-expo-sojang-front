@@ -11,15 +11,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ModalTest from "./components/ModalTest";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
+import CloseButton from "./components/CloseButton";
+import Category from "./components/Category";
 
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = 260;
 const CARD_WIDTH = width * 0.95;
 
 const GoogleMap = () => {
@@ -53,7 +56,7 @@ const GoogleMap = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://b830-219-255-155-95.ngrok-free.app/store",
+          "https://57a7-219-255-155-95.ngrok-free.app/store",
           (headers = {
             // "Content-Type": "multipart/form-data",
             Accept: "application/json",
@@ -94,22 +97,7 @@ const GoogleMap = () => {
     console.log(location.coords.longitude);
     lag = location.coords.latitude;
     log = location.coords.longitude;
-
-    // const markerComponents = stores.map((marker, index) => (
-    //   <CustomMarker
-    //     key={index} // 고유한 키 값 설정
-    //     coordinate={{
-    //       latitude: marker.lat,
-    //       longitude: marker.lon,
-    //     }}
-    //     id={marker.id}
-    //     nM={marker.nM}
-    //     anchor={{ x: 0.5, y: 1 }}
-    //   />
-    // ));
   }
-
-  const popUp = (event) => {};
 
   return (
     <View style={styles.screen}>
@@ -121,14 +109,14 @@ const GoogleMap = () => {
           initialRegion={{
             latitude: lag,
             longitude: log,
-            latitudeDelta: 1,
-            longitudeDelta: 1,
+            latitudeDelta: 0.009,
+            longitudeDelta: 0.004,
           }}
           provider={PROVIDER_GOOGLE}
           clusterColor="#000000"
           maxZoom={12}
           minZoom={5}
-          onPress={(e) => unShowDetail(e)}
+          // onPress={(e) => unShowDetail(e)}
         >
           {/* <Marker
             coordinate={{
@@ -187,33 +175,50 @@ const GoogleMap = () => {
         </MapView>
       )}
       <View style={{}}>
-        <View style={[]}>
-          <Text>55555555555</Text>
-        </View>
         <View style={[styles.cardContainer, { zIndex: 999 }]}>
           {detailVisible && (
             <View style={styles.card}>
+              <View style={styles.cardHeader}>
+                <Category name="분류이름" />
+                {/* <CloseButton onPress={() => {}} color="black" /> */}
+                <CloseButton onPress={() => {}} color="black" />
+                {/* <Image
+                  style={styles.cardHeaderElement}
+                  source={require("./assets/saks.png")}
+                  resizeMode="cover"
+                />
+                <Image
+                  style={styles.cardHeaderElement}
+                  source={require("./assets/button/close_square_button.png")}
+                  resizeMode="cover"
+                /> */}
+              </View>
               <View style={styles.cardContent}>
-                <Image style={styles.cardImage} resizeMode="cover" />
+                <Image
+                  style={styles.cardImage}
+                  source={require("./assets/saks.png")}
+                  resizeMode="cover"
+                />
+
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>
-                    123
+                    가게 이름
                   </Text>
 
                   <Text numberOfLines={1} style={styles.cardDescription}>
-                    des
+                    가게 주소
                   </Text>
-                  <View style={styles.button}>
-                    <TouchableOpacity
-                      onPress={() => {}}
-                      style={[
-                        styles.signIn,
-                        {
-                          borderColor: "#FF6347",
-                          borderWidth: 1,
-                        },
-                      ]}
-                    >
+                  <TouchableOpacity
+                    onPress={() => {}}
+                    style={[
+                      styles.signIn,
+                      {
+                        borderColor: "#FF6347",
+                        borderWidth: 1,
+                      },
+                    ]}
+                  >
+                    <View style={styles.button}>
                       <Text
                         style={[
                           styles.textSign,
@@ -222,10 +227,10 @@ const GoogleMap = () => {
                           },
                         ]}
                       >
-                        Order Now
+                        인증된 가게에요
                       </Text>
-                    </TouchableOpacity>
-                  </View>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -250,32 +255,50 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column-reverse",
   },
-  cardContainerUp: {},
+  cardHeaderElement: {
+    width: 44,
+    height: 44,
+    borderRadius: 44 / 2,
+  },
   card: {
     // justifyContent: "flex-end",
-    padding: 10,
-    elevation: 2,
+    // padding: 10,
+
+    elevation: 5,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-    borderBottomLeftRadius: 35,
-    borderBottomRightRadius: 35,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
     marginHorizontal: 10,
     marginBottom: 10,
     shadowRadius: 5,
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.7,
     shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
-    shadowOffset: { x: 2, y: -2 },
+    // shadowOffset: { x: 2, y: -2 },
+    shadowOffset: { width: 100, height: 100 },
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
     overflow: "hidden",
-    flexDirection: "column-reverse",
+
+    flexDirection: "column",
+  },
+  cardHeader: {
+    // width: 44,
+    // height: 44,
+    // borderRadius: 44 / 2,
+    // position: "absolute",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    position: "absolute",
+    padding: 7,
+    left: 0,
+    right: 0,
+    zIndex: 999,
   },
   cardContent: {
-    flexDirection: "row",
-
+    flexDirection: "column",
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -286,5 +309,12 @@ const styles = StyleSheet.create({
   textSign: {
     fontSize: 14,
     fontWeight: "bold",
+  },
+  cardImage: {
+    flex: 4,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignSelf: "center",
   },
 });

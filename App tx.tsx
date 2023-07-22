@@ -1,58 +1,37 @@
-import QRCode from "react-native-qrcode-svg";
-import GoalItem from "./components/GoalItem";
-import GoalInput from "./components/GoalInput";
-import GoogleMap from "./GoogleMap";
-
-import React, { useState, useEffect } from "react";
-import { Platform, Text, View, StyleSheet } from "react-native";
-
-import * as Location from "expo-location";
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Map, { MarkerData } from "./Map";
+import MapPanel from "./MapPanel";
 
 export default function App() {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [courseGoals, setCourseGoals] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null as MarkerData);
 
-  function startAddGoalHandler() {
-    setModalIsVisible(true);
+  function onMarkerPress(marker: MarkerData): void {
+    setSelectedMarker(marker);
   }
 
-  function endAddGoalHandler() {
-    setModalIsVisible(false);
-  }
-
-  function addGoalHandler(enteredGoalText) {
-    setCourseGoals((currentCourseGoals) => [
-      ...currentCourseGoals,
-      { text: enteredGoalText, id: Math.random().toString() },
-    ]);
-  }
-
-  function deleteGoalHandler(id) {
-    setCourseGoals((currentCourseGoals) => {
-      return currentCourseGoals.filter((goal) => goal.id !== id);
-    });
+  function onMapPress(): void {
+    setSelectedMarker(null);
   }
 
   return (
-    <View style={styles.appContainer}>
-      <QRCode value="https://naver.com" style={styles.qrCode} />
-      <GoogleMap />
-    </View>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <Map onMarkerPress={onMarkerPress} onMapPress={onMapPress} />
+        {selectedMarker !== null ? <MapPanel marker={selectedMarker} /> : null}
+      </View>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  appContainer: {
+  container: {
     flex: 1,
-    padding: 50,
-    paddingHorizontal: 16,
-  },
-
-  goalsContainer: {
-    flex: 5,
-  },
-
-  qrCode: {
-    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
