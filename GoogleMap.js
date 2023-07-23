@@ -18,14 +18,16 @@ import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
 import CloseButton from "./components/CloseButton";
 import Category from "./components/Category";
-
 import axios from "axios";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 260;
 const CARD_WIDTH = width * 0.95;
 
-const GoogleMap = () => {
+const GoogleMap = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [stores, setStores] = useState([]);
@@ -56,7 +58,7 @@ const GoogleMap = () => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://57a7-219-255-155-95.ngrok-free.app/store",
+          "https://cab8-219-255-155-95.ngrok-free.app/store",
           (headers = {
             // "Content-Type": "multipart/form-data",
             Accept: "application/json",
@@ -194,11 +196,22 @@ const GoogleMap = () => {
                 /> */}
               </View>
               <View style={styles.cardContent}>
-                <Image
+                <TouchableOpacity
                   style={styles.cardImage}
-                  source={require("./assets/saks.png")}
-                  resizeMode="cover"
-                />
+                  onPress={() => {
+                    console.log("onpressimage");
+                    navigation.navigate("MapDetail", {
+                      info: 123,
+                      title: "test title",
+                    });
+                  }}
+                >
+                  <Image
+                    style={styles.cardImage}
+                    source={require("./assets/saks.png")}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
 
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>

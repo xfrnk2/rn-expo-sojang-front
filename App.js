@@ -3,7 +3,7 @@ import GoalItem from "./components/GoalItem";
 
 import GoogleMap from "./GoogleMap";
 import ModalTest from "./components/ModalTest";
-
+import MapStackNavigation from "./MapStackNavigation";
 import React, { useState, useEffect } from "react";
 import {
   Platform,
@@ -16,12 +16,14 @@ import {
 } from "react-native";
 
 import * as Location from "expo-location";
-
+import "react-native-gesture-handler";
 export default function App() {
   return (
     <View style={styles.appContainer}>
       {/* <QRCode value="https://naver.com" style={styles.qrCode} /> */}
-      <GoogleMap />
+      {/* <GoogleMap /> */}
+
+      <MapStackNavigation />
     </View>
   );
 }
