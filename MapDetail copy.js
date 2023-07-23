@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
 import { View, Text, Button, StyleSheet, ListRenderItem } from "react-native";
-import Example from "./Example";
 
 const MapDetail = ({ navigation, route }) => {
   useEffect(() => {
@@ -12,7 +11,7 @@ const MapDetail = ({ navigation, route }) => {
 
   return (
     <View style={styles.pageContainer}>
-      {/* <View style={styles.imageContainer}>
+      <View style={styles.imageContainer}>
         <Text>Image</Text>
       </View>
       <View style={styles.detailContainer}>
@@ -23,7 +22,6 @@ const MapDetail = ({ navigation, route }) => {
         title="go to the list screen"
         onPress={() => navigation.navigate("MapDetail")}
       /> */}
-      <Example></Example>
     </View>
   );
 };
