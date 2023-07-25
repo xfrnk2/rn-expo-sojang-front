@@ -45,61 +45,183 @@ const data = [
 const HomeScreen = () => {
   return (
     <View style={styles.pageContainer}>
-      <FlatList
-        horizontal
-        data={data}
-        renderItem={({ item: rowData, index }) => {
-          return (
-            // <Card
-            //   title={null}
-            //   image={{ uri: rowData.imageUrl }}
-            //   containerStyle={{ padding: 0, width: 160 }}
-            // >
-            //   <Text style={{ marginBottom: 10 }}>{rowData.title}</Text>
-            // </Card>
-            <View style={styles.card} key={index}>
-              <Image
-                source={require("./assets/marker/map_marker_auth_bright.png")}
-                style={styles.cardImage}
-                resizeMode="cover"
-              />
-              <View style={styles.textContent}>
-                <Text numberOfLines={1} style={styles.cardtitle}>
-                  title
-                </Text>
-                {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
-                <Text numberOfLines={1} style={styles.cardDescription}>
-                  describsiton
-                </Text>
-                <View style={styles.button}>
-                  <TouchableOpacity
-                    onPress={() => {}}
-                    style={[
-                      styles.signIn,
-                      {
-                        borderColor: "#FF6347",
-                        borderWidth: 1,
-                      },
-                    ]}
-                  >
-                    <Text
+      <View style={styles.MainScreen}>
+        <Text>This is Main Screen</Text>
+      </View>
+      <View style={styles.cardList}>
+        <Text>cardListStart</Text>
+        <FlatList
+          horizontal
+          data={data}
+          renderItem={({ item: rowData, index }) => {
+            return (
+              // <Card
+              //   title={null}
+              //   image={{ uri: rowData.imageUrl }}
+              //   containerStyle={{ padding: 0, width: 160 }}
+              // >
+              //   <Text style={{ marginBottom: 10 }}>{rowData.title}</Text>
+              // </Card>
+              <View style={styles.card} key={index}>
+                <Image
+                  source={require("./assets/marker/map_marker_auth_bright.png")}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>
+                    title
+                  </Text>
+                  {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
+                  <Text numberOfLines={1} style={styles.cardDescription}>
+                    describsiton
+                  </Text>
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      onPress={() => {}}
                       style={[
-                        styles.textSign,
+                        styles.signIn,
                         {
-                          color: "#FF6347",
+                          borderColor: "#FF6347",
+                          borderWidth: 1,
                         },
                       ]}
                     >
-                      Order Now
-                    </Text>
-                  </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.textSign,
+                          {
+                            color: "#FF6347",
+                          },
+                        ]}
+                      >
+                        Order Now
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          );
-        }}
-        keyExtractor={(item, index) => index}
-      />
+            );
+          }}
+          keyExtractor={(item, index) => index}
+        />
+      </View>
+      <View style={styles.cardList}>
+        <Text>cardListStart</Text>
+        <FlatList
+          horizontal
+          data={data}
+          renderItem={({ item: rowData, index }) => {
+            return (
+              // <Card
+              //   title={null}
+              //   image={{ uri: rowData.imageUrl }}
+              //   containerStyle={{ padding: 0, width: 160 }}
+              // >
+              //   <Text style={{ marginBottom: 10 }}>{rowData.title}</Text>
+              // </Card>
+              <View style={styles.card} key={index}>
+                <Image
+                  source={require("./assets/marker/map_marker_auth_bright.png")}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>
+                    title
+                  </Text>
+                  {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
+                  <Text numberOfLines={1} style={styles.cardDescription}>
+                    describsiton
+                  </Text>
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      onPress={() => {}}
+                      style={[
+                        styles.signIn,
+                        {
+                          borderColor: "#FF6347",
+                          borderWidth: 1,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.textSign,
+                          {
+                            color: "#FF6347",
+                          },
+                        ]}
+                      >
+                        Order Now
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => index}
+        />
+      </View>
+      <View style={styles.cardList}>
+        <Text>cardListStart</Text>
+        <FlatList
+          horizontal
+          data={data}
+          renderItem={({ item: rowData, index }) => {
+            return (
+              // <Card
+              //   title={null}
+              //   image={{ uri: rowData.imageUrl }}
+              //   containerStyle={{ padding: 0, width: 160 }}
+              // >
+              //   <Text style={{ marginBottom: 10 }}>{rowData.title}</Text>
+              // </Card>
+              <View style={styles.card} key={index}>
+                <Image
+                  source={require("./assets/marker/map_marker_auth_bright.png")}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>
+                    title
+                  </Text>
+                  {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
+                  <Text numberOfLines={1} style={styles.cardDescription}>
+                    describsiton
+                  </Text>
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      onPress={() => {}}
+                      style={[
+                        styles.signIn,
+                        {
+                          borderColor: "#FF6347",
+                          borderWidth: 1,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.textSign,
+                          {
+                            color: "#FF6347",
+                          },
+                        ]}
+                      >
+                        Order Now
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => index}
+        />
+      </View>
     </View>
   );
 };
@@ -108,6 +230,8 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   pageContainer: { flex: 1 },
+  cardList: { flex: 2 },
+  MainScreen: { flex: 2 },
   card: {
     // padding: 10,
     elevation: 2,

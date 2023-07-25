@@ -8,7 +8,12 @@ const Stack = createStackNavigator();
 const MapStackNavigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="BottomTabNavigationApp">
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="BottomTabNavigationApp"
+      >
         <Stack.Screen
           name="BottomTabNavigationApp"
           component={BottomTabNavigationApp}
