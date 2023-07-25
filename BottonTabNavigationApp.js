@@ -7,12 +7,9 @@ import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Fontisto";
 
 import GoogleMap from "./GoogleMap";
-import MapHome from "./MapHome";
+import Home from "./Home";
 const Tab = createBottomTabNavigator();
 // https://oblador.github.io/react-native-vector-icons/
-function HomeScreen() {
-  return <Text>Home</Text>;
-}
 
 function FavoriteScreen() {
   return <Text>Favorite</Text>;
@@ -31,7 +28,7 @@ const BottomTabNavigationApp = ({ navigation }) => {
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={Home}
         options={{
           title: "홈",
           tabBarIcon: ({ color, size }) => (
