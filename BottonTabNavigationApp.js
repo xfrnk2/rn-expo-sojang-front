@@ -2,9 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, StyleSheet, Image, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon3 from "react-native-vector-icons/Fontisto";
+import Icon from "react-native-vector-icons/Octicons";
 
 import GoogleMap from "./GoogleMap";
 import Home from "./Home";
@@ -53,7 +51,7 @@ const BottomTabNavigationApp = ({ navigation }) => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
           bottom: 25,
@@ -72,27 +70,44 @@ const BottomTabNavigationApp = ({ navigation }) => {
         component={Home}
         options={{
           title: "홈",
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <View>
+              <Icon name="home" color={color} size={30} />
+              <Text
+                style={{
+                  color: focused ? "#e32f45" : "#748c94",
+                  fontSize: 12,
+                  textAlign: "center",
+                }}
+              >
+                홈
+              </Text>
+            </View>
           ),
           headerShown: false,
         }}
       />
+
       <Tab.Screen
-        name="Search"
-        component={GoogleMap}
+        name="favorite"
+        component={FavoriteScreen}
         options={{
-          title: "탐색",
-          tabBarIcon: ({ color, size }) => (
-            <Icon2 name="map-search" color={color} size={size} />
+          title: "찜",
+          tabBarIcon: ({ focused, color, size }) => (
+            <View>
+              <Icon name="heart" color={color} size={30} />
+              <Text
+                style={{
+                  color: focused ? "#e32f45" : "#748c94",
+                  fontSize: 12,
+                  textAlign: "center",
+                }}
+              >
+                찜
+              </Text>
+            </View>
           ),
         }}
-        listeners={() => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            navigation.navigate("GoogleMap");
-          },
-        })}
       />
 
       {/* <Tab.Screen
@@ -121,34 +136,32 @@ const BottomTabNavigationApp = ({ navigation }) => {
       /> */}
 
       <Tab.Screen
-        name="favorite2"
-        component={MyPageScreen}
+        name="Search"
+        component={GoogleMap}
         options={{
-          title: "ww",
-          tabBarIcon: ({ focused }) => (
-            <Image
-              source={require("./assets/logo.png")}
-              resizeMode="contain"
-              style={{
-                width: 30,
-                height: 30,
-                tintColor: focused ? "#e32f45" : "#748c94",
-              }}
-            />
+          title: "탐색",
+
+          tabBarIcon: ({ focused, color, size }) => (
+            <View>
+              <Icon name="feed-star" color={color} size={70} />
+              {/* <Text
+                style={{
+                  color: focused ? "#e32f45" : "#748c94",
+                  fontSize: 12,
+                  textAlign: "center",
+                }}
+              ></Text> */}
+            </View>
           ),
+
           tabBarButton: (props) => <CustomTabBarButton {...props} />,
         }}
-      />
-
-      <Tab.Screen
-        name="favorite"
-        component={FavoriteScreen}
-        options={{
-          title: "찜",
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="favorite" color={color} size={size} />
-          ),
-        }}
+        listeners={() => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("GoogleMap");
+          },
+        })}
       />
 
       <Tab.Screen
@@ -156,8 +169,42 @@ const BottomTabNavigationApp = ({ navigation }) => {
         component={CommunityScreen}
         options={{
           title: "커뮤니티",
-          tabBarIcon: ({ color, size }) => (
-            <Icon3 name="hipchat" color={color} size={size} />
+
+          tabBarIcon: ({ focused, color, size }) => (
+            <View>
+              <Icon name="comment" color={color} size={30} />
+              <Text
+                style={{
+                  color: focused ? "#e32f45" : "#748c94",
+                  fontSize: 12,
+                  textAlign: "center",
+                }}
+              >
+                Talk
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="myPage"
+        component={MyPageScreen}
+        options={{
+          title: "마이페이지",
+
+          tabBarIcon: ({ focused, color, size }) => (
+            <View>
+              <Icon name="person" color={color} size={37} />
+              <Text
+                style={{
+                  color: focused ? "#e32f45" : "#748c94",
+                  fontSize: 12,
+                  textAlign: "center",
+                }}
+              >
+                내정보
+              </Text>
+            </View>
           ),
         }}
       />
