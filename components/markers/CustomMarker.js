@@ -2,14 +2,13 @@ import React from "react";
 import { Image } from "react-native";
 import { Marker } from "react-native-maps";
 
-const CustomMarker = ({ coordinate, id, nM, onpress }) => {
+const CustomMarker = ({ coordinate, id, nM }) => {
   return (
     <Marker
       coordinate={coordinate}
       pinColor="#2D63E2"
       title={id}
       description={nM}
-      onpress={(e) => {}}
     >
       <Image
         source={require("../../assets/marker/map_marker_auth_bright.png")}
