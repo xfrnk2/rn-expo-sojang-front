@@ -92,7 +92,7 @@ const BottomTabNavigationApp = ({ navigation }) => {
         name="favorite"
         component={FavoriteScreen}
         options={{
-          title: "찜",
+          title: "소장",
           tabBarIcon: ({ focused, color, size }) => (
             <View>
               <Icon name="heart" color={color} size={30} />
@@ -103,7 +103,7 @@ const BottomTabNavigationApp = ({ navigation }) => {
                   textAlign: "center",
                 }}
               >
-                찜
+                소장
               </Text>
             </View>
           ),

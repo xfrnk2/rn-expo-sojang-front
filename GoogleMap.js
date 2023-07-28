@@ -58,7 +58,7 @@ const GoogleMap = ({ navigation }) => {
     (async () => {
       try {
         const response = await axios.get(
-          "https://a1cc-219-255-155-95.ngrok-free.app/store",
+          "https://d129-219-255-155-95.ngrok-free.app/store",
           (headers = {
             // "Content-Type": "multipart/form-data",
             Accept: "application/json",
