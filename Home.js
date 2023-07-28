@@ -60,6 +60,7 @@ const HomeScreen = () => {
           <BackgroundCarousel images={images} />
         </View>
       </View>
+
       <View style={styles.categoryList}>
         <View style={styles.gridContainer}>
           <View style={styles.gridItem}>
@@ -327,6 +328,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "flex-start", // if you want to fill rows left to right
+    justifyContent: "center",
   },
   gridItem: {
     width: "40%", // is 50% of container width
