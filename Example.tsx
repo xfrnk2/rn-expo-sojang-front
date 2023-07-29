@@ -8,7 +8,7 @@ const DATA = [0, 1, 2, 3, 4];
 const identity = (v: unknown): string => v + "";
 
 const Header = () => {
-  return <View style={styles.header} />;
+  return <View style={styles.header}></View>;
 };
 
 const Example: React.FC = () => {
@@ -32,7 +32,7 @@ const Example: React.FC = () => {
       </Tabs.Tab>
       <Tabs.Tab name="B">
         <Tabs.ScrollView>
-          <View style={[styles.box, styles.boxA]} />
+          {/* <View style={[styles.box, styles.boxA]} /> */}
           <View style={[styles.box, styles.boxB]} />
         </Tabs.ScrollView>
       </Tabs.Tab>

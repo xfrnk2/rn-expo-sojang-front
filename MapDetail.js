@@ -7,6 +7,7 @@ const MapDetail = ({ navigation, route }) => {
   useEffect(() => {
     navigation.setOptions({
       title: route.params.title,
+      data: route.params.data,
     });
   }, []);
 

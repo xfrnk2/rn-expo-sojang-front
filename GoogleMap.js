@@ -21,6 +21,7 @@ import Category from "./components/Category";
 import axios from "axios";
 import Example from "./Example";
 import { createStackNavigator } from "@react-navigation/stack";
+import TabView from "./TabView";
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,9 @@ const storesData = [
     lon: 126.726136342025,
     lat: 37.6068916938773,
     isCert: true,
+    hasParkingLot: false,
+    hasElevator: true,
+    hasToilet: false,
   },
   {
     id: 2,
@@ -53,6 +57,9 @@ const storesData = [
     lon: 126.670780777331,
     lat: 37.6487005470003,
     isCert: false,
+    hasParkingLot: false,
+    hasElevator: false,
+    hasToilet: false,
   },
   {
     id: 3,
@@ -66,6 +73,9 @@ const storesData = [
     lon: 126.661722810667,
     lat: 37.6968826880415,
     isCert: true,
+    hasParkingLot: true,
+    hasElevator: true,
+    hasToilet: true,
   },
 ];
 
@@ -277,8 +287,8 @@ const GoogleMap = ({ navigation }) => {
                     resizeMode="cover"
                   />
                 </TouchableOpacity> */}
-
-                <View style={styles.textContent}>
+                <TabView navigation={navigation} data={curStore}></TabView>
+                {/* <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardDescription}>
                     {curStore.address}
                   </Text>
@@ -307,7 +317,7 @@ const GoogleMap = ({ navigation }) => {
                       )}
                     </View>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
           )}
@@ -375,6 +385,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   cardContent: {
+    marginTop: 80,
     flexDirection: "column",
     flex: 1,
     alignItems: "center",
