@@ -26,11 +26,53 @@ const Stack = createStackNavigator();
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 260;
 const CARD_WIDTH = width * 0.95;
+const storesData = [
+  {
+    id: 1,
+    name: "타코박스김포",
+    maCat: "음식",
+    miCat: "서양식",
+    sido: "경기도",
+    sigungu: "김포시",
+    dong: "풍무동",
+    address: "경기도 김포시 풍무동 191-2",
+    lon: 126.726136342025,
+    lat: 37.6068916938773,
+    isCert: true,
+  },
+  {
+    id: 2,
+    name: "레드스모크하우스",
+    maCat: "음식",
+    miCat: "서양식",
+    sido: "경기도",
+    sigungu: "김포시",
+    dong: "장기동",
+    address: "경기도 김포시 장기동 1902-1",
+    lon: 126.670780777331,
+    lat: 37.6487005470003,
+    isCert: false,
+  },
+  {
+    id: 3,
+    name: "뱀부포레스트",
+    maCat: "음식",
+    miCat: "서양식",
+    sido: "경기도",
+    sigungu: "김포시",
+    dong: "하성면",
+    address: "경기도 김포시 하성면 전류리 67-34",
+    lon: 126.661722810667,
+    lat: 37.6968826880415,
+    isCert: true,
+  },
+];
 
 const GoogleMap = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [stores, setStores] = useState([]);
+  const [stores, setStores] = useState(storesData);
+  const [curStore, setCurStore] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
 
   const showDetail = (event) => {
@@ -55,37 +97,26 @@ const GoogleMap = ({ navigation }) => {
       setLocation(currentLocation);
     })();
 
-    (async () => {
-      try {
-        const response = await axios.get(
-          "https://d129-219-255-155-95.ngrok-free.app/store",
-          (headers = {
-            // "Content-Type": "multipart/form-data",
-            Accept: "application/json",
-          })
-        );
+    // (async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       "https://3934-219-255-155-95.ngrok-free.app/store",
+    //       (headers = {
+    //         // "Content-Type": "multipart/form-data",
+    //         Accept: "application/json",
+    //       })
+    //     );
 
-        const data = response.data;
-        console.log(data);
-        setStores(data);
-        console.log(stores);
-      } catch (err) {
-        console.log(err);
-        console.log(err.name);
-        console.log(err.message);
-        console.log(err.stack);
-      }
-    })();
-
-    //   await axios
-    //     .get("127.0.0.1:3000/store")
-    //     .then((response) => {
-    //       const data = response.data;
-    //       console.log(data);
-    //       setStores(data);
-    //       console.log(stores);
-    //     })
-    //     .catch((error) => console.log(error));
+    //     const data = response.data;
+    //     console.log(data);
+    //     setStores(data);
+    //     console.log(stores);
+    //   } catch (err) {
+    //     console.log(err);
+    //     console.log(err.name);
+    //     console.log(err.message);
+    //     console.log(err.stack);
+    //   }
     // })();
   }, []);
 
@@ -151,21 +182,22 @@ const GoogleMap = ({ navigation }) => {
             // />
 
             <Marker
-              key={index}
+              key={marker.id}
               coordinate={{
                 latitude: marker.lat,
                 longitude: marker.lon,
               }}
-              id={marker.id}
-              nM={marker.nM}
               pinColor="#2D63E2"
-              title={marker.id}
-              description={marker.nM}
+              // title={marker.id}
+              // description={marker.nM}
               anchor={{ x: 0.5, y: 1 }}
               showsUserLocation
               loadingEnabled
               showsMyLocationButton
-              onPress={(e) => showDetail(e)}
+              onPress={(e) => {
+                setCurStore(stores[marker.id - 1]);
+                showDetail(e);
+              }}
               tracksViewChanges={false}
             >
               <Image
@@ -181,7 +213,7 @@ const GoogleMap = ({ navigation }) => {
           {detailVisible && (
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <Category name="분류이름" />
+                <Category name={curStore.maCat} />
                 {/* <CloseButton onPress={() => {}} color="black" /> */}
                 <CloseButton onPress={() => {}} color="black" />
                 {/* <Image
@@ -215,11 +247,11 @@ const GoogleMap = ({ navigation }) => {
 
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>
-                    가게 이름
+                    {curStore.name}
                   </Text>
 
                   <Text numberOfLines={1} style={styles.cardDescription}>
-                    가게 주소
+                    {curStore.address}
                   </Text>
                   <TouchableOpacity
                     onPress={() => {}}
@@ -232,16 +264,18 @@ const GoogleMap = ({ navigation }) => {
                     ]}
                   >
                     <View style={styles.button}>
-                      <Text
-                        style={[
-                          styles.textSign,
-                          {
-                            color: "#FF6347",
-                          },
-                        ]}
-                      >
-                        인증된 가게에요
-                      </Text>
+                      {curStore.isCert && (
+                        <Text
+                          style={[
+                            styles.textSign,
+                            {
+                              color: "#FF6347",
+                            },
+                          ]}
+                        >
+                          인증된 가게에요
+                        </Text>
+                      )}
                     </View>
                   </TouchableOpacity>
                 </View>
