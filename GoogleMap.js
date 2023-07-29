@@ -16,15 +16,16 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
-import CloseButton from "./components/CloseButton";
+import BackspaceButton from "./components/BackspaceButton";
 import Category from "./components/Category";
 import axios from "axios";
+import Example from "./Example";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 260;
+const CARD_HEIGHT = 400;
 const CARD_WIDTH = width * 0.95;
 const storesData = [
   {
@@ -213,9 +214,41 @@ const GoogleMap = ({ navigation }) => {
           {detailVisible && (
             <View style={styles.card}>
               <View style={styles.cardHeader}>
+                <View style={{ flexDirection: "row" }}>
+                  <BackspaceButton
+                    onPress={() => {
+                      setDetailVisible(false);
+                    }}
+                    color="black"
+                  />
+                  <Image
+                    source={require("./assets/no-image.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      marginLeft: -5,
+                      marginTop: 10,
+                      borderRadius: 3,
+                      borderWidth: 2,
+                      borderColor: "grey",
+                    }}
+                  />
+
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      marginTop: 14,
+                      fontSize: 18,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {curStore.name} {curStore.isCert && "☆"}
+                  </Text>
+                </View>
                 <Category name={curStore.maCat} />
+
                 {/* <CloseButton onPress={() => {}} color="black" /> */}
-                <CloseButton onPress={() => {}} color="black" />
+
                 {/* <Image
                   style={styles.cardHeaderElement}
                   source={require("./assets/saks.png")}
@@ -228,7 +261,7 @@ const GoogleMap = ({ navigation }) => {
                 /> */}
               </View>
               <View style={styles.cardContent}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.cardImage}
                   onPress={() => {
                     console.log("onpressimage");
@@ -243,13 +276,9 @@ const GoogleMap = ({ navigation }) => {
                     source={require("./assets/saks.png")}
                     resizeMode="cover"
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <View style={styles.textContent}>
-                  <Text numberOfLines={1} style={styles.cardtitle}>
-                    {curStore.name}
-                  </Text>
-
                   <Text numberOfLines={1} style={styles.cardDescription}>
                     {curStore.address}
                   </Text>
@@ -303,8 +332,8 @@ const styles = StyleSheet.create({
     flexDirection: "column-reverse",
   },
   cardHeaderElement: {
-    width: 44,
-    height: 44,
+    // width: 44,
+    // height: 44,
     borderRadius: 44 / 2,
   },
   card: {
@@ -336,9 +365,11 @@ const styles = StyleSheet.create({
     // borderRadius: 44 / 2,
     // position: "absolute",
     flexDirection: "row",
+
     justifyContent: "space-between",
     position: "absolute",
-    padding: 7,
+    paddingTop: 7,
+    paddingRight: 15,
     left: 0,
     right: 0,
     zIndex: 999,
@@ -350,7 +381,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textContent: {
-    flex: 2,
+    // flex: 2,
     padding: 10,
   },
   textSign: {
