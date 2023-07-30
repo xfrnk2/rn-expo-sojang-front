@@ -9,10 +9,11 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import ModalTest from "./components/ModalTest";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
@@ -147,6 +148,7 @@ const GoogleMap = ({ navigation }) => {
   return (
     <View style={styles.screen}>
       {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
+
       <View style={styles.screenHeader}>
         <Text>.</Text>
         <Text>소장가치 지도</Text>
@@ -155,6 +157,15 @@ const GoogleMap = ({ navigation }) => {
             navigation.goBack();
           }}
         />
+      </View>
+      <View style={styles.searchBox}>
+        <TextInput
+          placeholder="Search here"
+          placeholderTextColor="#000"
+          autoCapitalize="none"
+          style={{ flex: 1, padding: 0 }}
+        />
+        <Ionicons name="ios-search" size={20} />
       </View>
       {lag !== 0 && log !== 0 && (
         <MapView
@@ -349,6 +360,29 @@ const styles = StyleSheet.create({
   },
   screen: {
     flex: 1,
+  },
+  searchBox: {
+    flex: 1,
+    position: "absolute",
+    marginTop: Platform.OS === "ios" ? 40 : 20,
+    flexDirection: "row",
+    backgroundColor: "black",
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: "#ccc",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+    top: 70,
+    left: 15,
+    right: 0,
+    backgroundColor: "#fff",
+    zIndex: 999,
+    alignContent: "center",
+    alignItems: "center",
   },
   screenHeader: {
     // width: 44,
