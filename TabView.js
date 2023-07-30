@@ -5,7 +5,7 @@ import { Tabs } from "react-native-collapsible-tab-view";
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v) => v + "";
 
-const TabView = ({ navigation, data }) => {
+const TabView = ({ navigation, data, update }) => {
   return (
     <Tabs.Container>
       <Tabs.Tab name="상세">
@@ -15,6 +15,7 @@ const TabView = ({ navigation, data }) => {
             navigation.navigate("MapDetail", {
               data: data,
               title: data.name,
+              update: update,
             });
           }}
         >

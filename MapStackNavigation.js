@@ -23,7 +23,7 @@ const MapStackNavigation = () => {
         <Stack.Screen
           name="MapDetail"
           component={MapDetail}
-          options={({ route }) => ({ title: route.params.name })}
+          options={({ route }) => ({})}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -22,6 +22,7 @@ import axios from "axios";
 import Example from "./Example";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabView from "./TabView";
+import CloseButton from "./components/CloseButton";
 
 const Stack = createStackNavigator();
 
@@ -146,7 +147,15 @@ const GoogleMap = ({ navigation }) => {
   return (
     <View style={styles.screen}>
       {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
-
+      <View style={styles.screenHeader}>
+        <Text>.</Text>
+        <Text>소장가치 지도</Text>
+        <CloseButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      </View>
       {lag !== 0 && log !== 0 && (
         <MapView
           style={styles.map}
@@ -287,7 +296,11 @@ const GoogleMap = ({ navigation }) => {
                     resizeMode="cover"
                   />
                 </TouchableOpacity> */}
-                <TabView navigation={navigation} data={curStore}></TabView>
+                <TabView
+                  navigation={navigation}
+                  data={curStore}
+                  update={setCurStore}
+                ></TabView>
                 {/* <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardDescription}>
                     {curStore.address}
@@ -337,6 +350,25 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  screenHeader: {
+    // width: 44,
+    // height: 44,
+    // borderRadius: 44 / 2,
+    // position: "absolute",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    opacity: 0.75,
+    paddingRight: 15,
+    height: 75,
+    position: "absolute",
+    paddingTop: 20,
+    paddingRight: 15,
+    left: 0,
+    right: 0,
+    backgroundColor: "#fff",
+    zIndex: 999,
+  },
   cardContainer: {
     flex: 1,
     flexDirection: "column-reverse",
@@ -369,6 +401,7 @@ const styles = StyleSheet.create({
 
     flexDirection: "column",
   },
+
   cardHeader: {
     // width: 44,
     // height: 44,
