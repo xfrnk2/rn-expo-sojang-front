@@ -6,10 +6,11 @@ import {
   Text,
   TextInput,
 } from "react-native";
-import { Tabs } from "react-native-collapsible-tab-view";
+import { MaterialTabBar, Tabs } from "react-native-collapsible-tab-view";
 import { ToggleIcon } from "./ToggleIcon";
 import FilledHeart from "./components/FilledHeart";
 import UnfilledHeart from "./components/UnfilledHeart";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const HEADER_HEIGHT = 240;
 
 const DATA = [0, 1, 2, 3, 4];
@@ -74,6 +75,12 @@ const Example: React.FC = (props) => {
     <Tabs.Container
       renderHeader={() => <Header data={props.data} />}
       headerHeight={HEADER_HEIGHT} // optional
+      renderTabBar={(props) => (
+        <MaterialTabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: "red" }}
+        /> //Here
+      )}
     >
       <Tabs.Tab name="방명록">
         <Tabs.FlatList
@@ -82,9 +89,15 @@ const Example: React.FC = (props) => {
           keyExtractor={identity}
           style={{ flex: 1 }}
         />
-        <View style={styles.inputContainer}>
-          <Text>Comment</Text>
+        <View style={styles.footer}>
           <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
+          <TouchableOpacity style={styles.button}>
+            <Text>방명록 남기기</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button}>
+            <Text>커뮤니티 문의</Text>
+          </TouchableOpacity>
         </View>
       </Tabs.Tab>
       <Tabs.Tab name="쿠폰">
@@ -119,7 +132,8 @@ const styles = StyleSheet.create({
   header: {
     height: HEADER_HEIGHT,
     width: "100%",
-    backgroundColor: "#2196f3",
+    // backgroundColor: "#2196f3",
+    backgroundColor: "#D8D8D8",
   },
 
   boxcontent: { paddingVertical: 10 },
@@ -138,6 +152,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBotomColor: "#cccccc",
     padding: 16,
+  },
+  footer: {
+    flex: 0.1,
+
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBotomColor: "#cccccc",
+    padding: 16,
+  },
+  button: {
+    borderWidth: 2,
+    backgroundColor: "#D8D8D8",
+    borderRadius: 30,
+    padding: 10,
   },
 });
 
