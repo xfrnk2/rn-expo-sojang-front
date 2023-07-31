@@ -13,7 +13,10 @@ import {
 import Example from "./Example";
 import BackspaceButton from "./components/BackspaceButton";
 import Category from "./components/Category";
-
+import FilledHeart from "./components/FilledHeart";
+import UnfilledHeart from "./components/UnfilledHeart";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { ToggleIcon } from "./ToggleIcon";
 const MapDetail = ({ navigation, route }) => {
   // const update = route.params.update;
   const [curStore, setCurStore] = useState(route.params.data);
@@ -80,7 +83,16 @@ const MapDetail = ({ navigation, route }) => {
           update={setCurStore}
         ></Example>
       </View>
+      <View style={styles.footer}>
+        <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
+        <TouchableOpacity style={styles.button}>
+          <Text>방명록 남기기</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity style={styles.button}>
+          <Text>커뮤니티 문의</Text>
+        </TouchableOpacity>
+      </View>
       {/* <View style={styles.inputContainer}>
         <Text>Comment</Text>
         <TextInput
@@ -186,5 +198,22 @@ const styles = StyleSheet.create({
     borderBotomColor: "#cccccc",
     padding: 16,
     flex: 1,
+  },
+  footer: {
+    flex: 0.4,
+
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    borderTopWidth: 1,
+    // borderBotomColor: "#cccccc",
+    padding: 16,
+  },
+  button: {
+    borderWidth: 2,
+    backgroundColor: "#D8D8D8",
+    borderRadius: 30,
+    padding: 10,
   },
 });

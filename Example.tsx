@@ -11,7 +11,7 @@ import { ToggleIcon } from "./ToggleIcon";
 import FilledHeart from "./components/FilledHeart";
 import UnfilledHeart from "./components/UnfilledHeart";
 import { TouchableOpacity } from "react-native-gesture-handler";
-const HEADER_HEIGHT = 240;
+const HEADER_HEIGHT = 300;
 
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v: unknown): string => v + "";
@@ -89,16 +89,6 @@ const Example: React.FC = (props) => {
           keyExtractor={identity}
           style={{ flex: 1 }}
         />
-        <View style={styles.footer}>
-          <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
-          <TouchableOpacity style={styles.button}>
-            <Text>방명록 남기기</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Text>커뮤니티 문의</Text>
-          </TouchableOpacity>
-        </View>
       </Tabs.Tab>
       <Tabs.Tab name="쿠폰">
         <Tabs.ScrollView>
