@@ -7,12 +7,9 @@ import Icon from "react-native-vector-icons/Octicons";
 import GoogleMap from "./GoogleMap";
 import Home from "./Home";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import FavoriteScreen from "./screens/FavoriteScreen";
 const Tab = createBottomTabNavigator();
 // https://oblador.github.io/react-native-vector-icons/
-
-function FavoriteScreen() {
-  return <Text>Favorite</Text>;
-}
 
 function CommunityScreen() {
   return <Text>Community</Text>;
