@@ -6,16 +6,18 @@ import {
   Text,
   TextInput,
 } from "react-native";
-import { Tabs } from "react-native-collapsible-tab-view";
+import { MaterialTabBar, Tabs } from "react-native-collapsible-tab-view";
 import { ToggleIcon } from "./ToggleIcon";
 import FilledHeart from "./components/FilledHeart";
 import UnfilledHeart from "./components/UnfilledHeart";
-const HEADER_HEIGHT = 240;
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Coupon from "./Coupon";
+const HEADER_HEIGHT = 300;
 
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v: unknown): string => v + "";
 
-const Header = ({ navigation, data, update }) => {
+const Header = ({ navigation, data }) => {
   return (
     <View style={styles.header}>
       <View style={styles.headerContainer}>
@@ -74,6 +76,12 @@ const Example: React.FC = (props) => {
     <Tabs.Container
       renderHeader={() => <Header data={props.data} />}
       headerHeight={HEADER_HEIGHT} // optional
+      renderTabBar={(props) => (
+        <MaterialTabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: "red" }}
+        /> //Here
+      )}
     >
       <Tabs.Tab name="방명록">
         <Tabs.FlatList
@@ -82,15 +90,22 @@ const Example: React.FC = (props) => {
           keyExtractor={identity}
           style={{ flex: 1 }}
         />
-        <View style={styles.inputContainer}>
-          <Text>Comment</Text>
-          <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
-        </View>
       </Tabs.Tab>
       <Tabs.Tab name="쿠폰">
         <Tabs.ScrollView>
           {/* <View style={[styles.box, styles.boxA]} /> */}
-          <View style={[styles.box, styles.boxB]} />
+          <View style={[styles.box, styles.boxB]}>
+            <Coupon
+              title={"사이다 무료\n기한: 2023-07-31"}
+              isDisabled={false}
+            />
+          </View>
+          <View style={[styles.box, styles.boxB]}>
+            <Coupon
+              title={"1000원\n기한: 2023-08-31\n\n<<사용완료>>"}
+              isDisabled={true}
+            />
+          </View>
         </Tabs.ScrollView>
       </Tabs.Tab>
     </Tabs.Container>
@@ -105,7 +120,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   box: {
-    height: 250,
+    height: 200,
     width: "100%",
     paddingHorizontal: 25,
     marginTop: 10,
@@ -119,7 +134,8 @@ const styles = StyleSheet.create({
   header: {
     height: HEADER_HEIGHT,
     width: "100%",
-    backgroundColor: "#2196f3",
+    // backgroundColor: "#2196f3",
+    backgroundColor: "#D8D8D8",
   },
 
   boxcontent: { paddingVertical: 10 },
@@ -138,6 +154,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBotomColor: "#cccccc",
     padding: 16,
+  },
+  footer: {
+    flex: 0.1,
+
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBotomColor: "#cccccc",
+    padding: 16,
+  },
+  button: {
+    borderWidth: 2,
+    backgroundColor: "#D8D8D8",
+    borderRadius: 30,
+    padding: 10,
   },
 });
 

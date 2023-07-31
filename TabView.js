@@ -1,13 +1,20 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Tabs } from "react-native-collapsible-tab-view";
+import { MaterialTabBar, Tabs } from "react-native-collapsible-tab-view";
 
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v) => v + "";
 
-const TabView = ({ navigation, data, update }) => {
+const TabView = ({ navigation, data }) => {
   return (
-    <Tabs.Container>
+    <Tabs.Container
+      renderTabBar={(props) => (
+        <MaterialTabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: "red" }}
+        /> //Here
+      )}
+    >
       <Tabs.Tab name="상세">
         <TouchableOpacity
           onPress={() => {
@@ -15,7 +22,6 @@ const TabView = ({ navigation, data, update }) => {
             navigation.navigate("MapDetail", {
               data: data,
               title: data.name,
-              update: update,
             });
           }}
         >
