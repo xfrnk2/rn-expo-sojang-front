@@ -7,7 +7,9 @@ import {
   TextInput,
 } from "react-native";
 import { Tabs } from "react-native-collapsible-tab-view";
-
+import { ToggleIcon } from "./ToggleIcon";
+import FilledHeart from "./components/FilledHeart";
+import UnfilledHeart from "./components/UnfilledHeart";
 const HEADER_HEIGHT = 240;
 
 const DATA = [0, 1, 2, 3, 4];
@@ -82,12 +84,7 @@ const Example: React.FC = (props) => {
         />
         <View style={styles.inputContainer}>
           <Text>Comment</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Your course goalas!"
-            onChangeText={() => {}}
-            value={"text"}
-          ></TextInput>
+          <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
         </View>
       </Tabs.Tab>
       <Tabs.Tab name="쿠폰">
