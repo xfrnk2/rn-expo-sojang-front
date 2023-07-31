@@ -11,6 +11,7 @@ import { ToggleIcon } from "./ToggleIcon";
 import FilledHeart from "./components/FilledHeart";
 import UnfilledHeart from "./components/UnfilledHeart";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Coupon from "./Coupon";
 const HEADER_HEIGHT = 300;
 
 const DATA = [0, 1, 2, 3, 4];
@@ -93,7 +94,18 @@ const Example: React.FC = (props) => {
       <Tabs.Tab name="쿠폰">
         <Tabs.ScrollView>
           {/* <View style={[styles.box, styles.boxA]} /> */}
-          <View style={[styles.box, styles.boxB]} />
+          <View style={[styles.box, styles.boxB]}>
+            <Coupon
+              title={"사이다 무료\n기한: 2023-07-31"}
+              isDisabled={false}
+            />
+          </View>
+          <View style={[styles.box, styles.boxB]}>
+            <Coupon
+              title={"1000원\n기한: 2023-08-31\n\n<<사용완료>>"}
+              isDisabled={true}
+            />
+          </View>
         </Tabs.ScrollView>
       </Tabs.Tab>
     </Tabs.Container>
@@ -108,7 +120,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   box: {
-    height: 250,
+    height: 200,
     width: "100%",
     paddingHorizontal: 25,
     marginTop: 10,
