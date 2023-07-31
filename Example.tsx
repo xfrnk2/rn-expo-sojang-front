@@ -17,7 +17,7 @@ const HEADER_HEIGHT = 300;
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v: unknown): string => v + "";
 
-const Header = ({ navigation, data, update }) => {
+const Header = ({ navigation, data }) => {
   return (
     <View style={styles.header}>
       <View style={styles.headerContainer}>

@@ -5,7 +5,7 @@ import { MaterialTabBar, Tabs } from "react-native-collapsible-tab-view";
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v) => v + "";
 
-const TabView = ({ navigation, data, update }) => {
+const TabView = ({ navigation, data }) => {
   return (
     <Tabs.Container
       renderTabBar={(props) => (
@@ -22,7 +22,6 @@ const TabView = ({ navigation, data, update }) => {
             navigation.navigate("MapDetail", {
               data: data,
               title: data.name,
-              update: update,
             });
           }}
         >
