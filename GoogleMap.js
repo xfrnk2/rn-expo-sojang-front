@@ -9,28 +9,83 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import ModalTest from "./components/ModalTest";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
-import CloseButton from "./components/CloseButton";
+import BackspaceButton from "./components/BackspaceButton";
 import Category from "./components/Category";
 import axios from "axios";
+import Example from "./Example";
 import { createStackNavigator } from "@react-navigation/stack";
+import TabView from "./TabView";
+import CloseButton from "./components/CloseButton";
 
 const Stack = createStackNavigator();
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 260;
+const CARD_HEIGHT = 400;
 const CARD_WIDTH = width * 0.95;
+const storesData = [
+  {
+    id: 1,
+    name: "타코박스김포",
+    maCat: "음식",
+    miCat: "서양식",
+    sido: "경기도",
+    sigungu: "김포시",
+    dong: "풍무동",
+    address: "경기도 김포시 풍무동 191-2",
+    lon: 126.726136342025,
+    lat: 37.6068916938773,
+    isCert: true,
+    hasParkingLot: false,
+    hasElevator: true,
+    hasToilet: false,
+  },
+  {
+    id: 2,
+    name: "레드스모크하우스",
+    maCat: "음식",
+    miCat: "서양식",
+    sido: "경기도",
+    sigungu: "김포시",
+    dong: "장기동",
+    address: "경기도 김포시 장기동 1902-1",
+    lon: 126.670780777331,
+    lat: 37.6487005470003,
+    isCert: false,
+    hasParkingLot: false,
+    hasElevator: false,
+    hasToilet: false,
+  },
+  {
+    id: 3,
+    name: "뱀부포레스트",
+    maCat: "음식",
+    miCat: "서양식",
+    sido: "경기도",
+    sigungu: "김포시",
+    dong: "하성면",
+    address: "경기도 김포시 하성면 전류리 67-34",
+    lon: 126.661722810667,
+    lat: 37.6968826880415,
+    isCert: true,
+    hasParkingLot: true,
+    hasElevator: true,
+    hasToilet: true,
+  },
+];
 
 const GoogleMap = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [stores, setStores] = useState([]);
+  const [stores, setStores] = useState(storesData);
+  const [curStore, setCurStore] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
 
   const showDetail = (event) => {
@@ -55,37 +110,26 @@ const GoogleMap = ({ navigation }) => {
       setLocation(currentLocation);
     })();
 
-    (async () => {
-      try {
-        const response = await axios.get(
-          "https://d129-219-255-155-95.ngrok-free.app/store",
-          (headers = {
-            // "Content-Type": "multipart/form-data",
-            Accept: "application/json",
-          })
-        );
+    // (async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       "https://3934-219-255-155-95.ngrok-free.app/store",
+    //       (headers = {
+    //         // "Content-Type": "multipart/form-data",
+    //         Accept: "application/json",
+    //       })
+    //     );
 
-        const data = response.data;
-        console.log(data);
-        setStores(data);
-        console.log(stores);
-      } catch (err) {
-        console.log(err);
-        console.log(err.name);
-        console.log(err.message);
-        console.log(err.stack);
-      }
-    })();
-
-    //   await axios
-    //     .get("127.0.0.1:3000/store")
-    //     .then((response) => {
-    //       const data = response.data;
-    //       console.log(data);
-    //       setStores(data);
-    //       console.log(stores);
-    //     })
-    //     .catch((error) => console.log(error));
+    //     const data = response.data;
+    //     console.log(data);
+    //     setStores(data);
+    //     console.log(stores);
+    //   } catch (err) {
+    //     console.log(err);
+    //     console.log(err.name);
+    //     console.log(err.message);
+    //     console.log(err.stack);
+    //   }
     // })();
   }, []);
 
@@ -105,6 +149,24 @@ const GoogleMap = ({ navigation }) => {
     <View style={styles.screen}>
       {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
 
+      <View style={styles.screenHeader}>
+        <Text>.</Text>
+        <Text>소장가치 지도</Text>
+        <CloseButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      </View>
+      <View style={styles.searchBox}>
+        <TextInput
+          placeholder="Search here"
+          placeholderTextColor="#000"
+          autoCapitalize="none"
+          style={{ flex: 1, padding: 0 }}
+        />
+        <Ionicons name="ios-search" size={20} />
+      </View>
       {lag !== 0 && log !== 0 && (
         <MapView
           style={styles.map}
@@ -151,21 +213,22 @@ const GoogleMap = ({ navigation }) => {
             // />
 
             <Marker
-              key={index}
+              key={marker.id}
               coordinate={{
                 latitude: marker.lat,
                 longitude: marker.lon,
               }}
-              id={marker.id}
-              nM={marker.nM}
               pinColor="#2D63E2"
-              title={marker.id}
-              description={marker.nM}
+              // title={marker.id}
+              // description={marker.nM}
               anchor={{ x: 0.5, y: 1 }}
               showsUserLocation
               loadingEnabled
               showsMyLocationButton
-              onPress={(e) => showDetail(e)}
+              onPress={(e) => {
+                setCurStore(stores[marker.id - 1]);
+                showDetail(e);
+              }}
               tracksViewChanges={false}
             >
               <Image
@@ -181,9 +244,41 @@ const GoogleMap = ({ navigation }) => {
           {detailVisible && (
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <Category name="분류이름" />
+                <View style={{ flexDirection: "row" }}>
+                  <BackspaceButton
+                    onPress={() => {
+                      setDetailVisible(false);
+                    }}
+                    color="black"
+                  />
+                  <Image
+                    source={require("./assets/no-image.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      marginLeft: -5,
+                      marginTop: 10,
+                      borderRadius: 3,
+                      borderWidth: 2,
+                      borderColor: "grey",
+                    }}
+                  />
+
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      marginTop: 14,
+                      fontSize: 18,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {curStore.name} {curStore.isCert && "☆"}
+                  </Text>
+                </View>
+                <Category name={curStore.maCat} />
+
                 {/* <CloseButton onPress={() => {}} color="black" /> */}
-                <CloseButton onPress={() => {}} color="black" />
+
                 {/* <Image
                   style={styles.cardHeaderElement}
                   source={require("./assets/saks.png")}
@@ -196,7 +291,7 @@ const GoogleMap = ({ navigation }) => {
                 /> */}
               </View>
               <View style={styles.cardContent}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.cardImage}
                   onPress={() => {
                     console.log("onpressimage");
@@ -211,15 +306,15 @@ const GoogleMap = ({ navigation }) => {
                     source={require("./assets/saks.png")}
                     resizeMode="cover"
                   />
-                </TouchableOpacity>
-
-                <View style={styles.textContent}>
-                  <Text numberOfLines={1} style={styles.cardtitle}>
-                    가게 이름
-                  </Text>
-
+                </TouchableOpacity> */}
+                <TabView
+                  navigation={navigation}
+                  data={curStore}
+                  update={setCurStore}
+                ></TabView>
+                {/* <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardDescription}>
-                    가게 주소
+                    {curStore.address}
                   </Text>
                   <TouchableOpacity
                     onPress={() => {}}
@@ -232,19 +327,21 @@ const GoogleMap = ({ navigation }) => {
                     ]}
                   >
                     <View style={styles.button}>
-                      <Text
-                        style={[
-                          styles.textSign,
-                          {
-                            color: "#FF6347",
-                          },
-                        ]}
-                      >
-                        인증된 가게에요
-                      </Text>
+                      {curStore.isCert && (
+                        <Text
+                          style={[
+                            styles.textSign,
+                            {
+                              color: "#FF6347",
+                            },
+                          ]}
+                        >
+                          인증된 가게에요
+                        </Text>
+                      )}
                     </View>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
           )}
@@ -264,13 +361,55 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  searchBox: {
+    flex: 1,
+    position: "absolute",
+    marginTop: Platform.OS === "ios" ? 40 : 20,
+    flexDirection: "row",
+    backgroundColor: "black",
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: "#ccc",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+    top: 70,
+    left: 15,
+    right: 0,
+    backgroundColor: "#fff",
+    zIndex: 999,
+    alignContent: "center",
+    alignItems: "center",
+  },
+  screenHeader: {
+    // width: 44,
+    // height: 44,
+    // borderRadius: 44 / 2,
+    // position: "absolute",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    opacity: 0.75,
+    paddingRight: 15,
+    height: 75,
+    position: "absolute",
+    paddingTop: 20,
+    paddingRight: 15,
+    left: 0,
+    right: 0,
+    backgroundColor: "#fff",
+    zIndex: 999,
+  },
   cardContainer: {
     flex: 1,
     flexDirection: "column-reverse",
   },
   cardHeaderElement: {
-    width: 44,
-    height: 44,
+    // width: 44,
+    // height: 44,
     borderRadius: 44 / 2,
   },
   card: {
@@ -296,27 +435,31 @@ const styles = StyleSheet.create({
 
     flexDirection: "column",
   },
+
   cardHeader: {
     // width: 44,
     // height: 44,
     // borderRadius: 44 / 2,
     // position: "absolute",
     flexDirection: "row",
+
     justifyContent: "space-between",
     position: "absolute",
-    padding: 7,
+    paddingTop: 7,
+    paddingRight: 15,
     left: 0,
     right: 0,
     zIndex: 999,
   },
   cardContent: {
+    marginTop: 80,
     flexDirection: "column",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   textContent: {
-    flex: 2,
+    // flex: 2,
     padding: 10,
   },
   textSign: {

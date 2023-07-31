@@ -1,9 +1,22 @@
 import React from "react";
-import { useEffect } from "react";
-import { View, Text, Button, StyleSheet, ListRenderItem } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ListRenderItem,
+  Image,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import Example from "./Example";
+import BackspaceButton from "./components/BackspaceButton";
+import Category from "./components/Category";
 
 const MapDetail = ({ navigation, route }) => {
+  // const update = route.params.update;
+  const [curStore, setCurStore] = useState(route.params.data);
   useEffect(() => {
     navigation.setOptions({
       title: route.params.title,
@@ -12,6 +25,105 @@ const MapDetail = ({ navigation, route }) => {
 
   return (
     <View style={styles.pageContainer}>
+      <View style={styles.detailHeader}>
+        <View style={{ flexDirection: "row" }}>
+          <BackspaceButton
+            onPress={() => {
+              // setDetailVisible(false);
+              navigation.goBack();
+            }}
+            color="black"
+          />
+          <Image
+            source={require("./assets/no-image.png")}
+            style={{
+              width: 40,
+              height: 40,
+              marginLeft: -5,
+              marginTop: 10,
+              borderRadius: 3,
+              borderWidth: 2,
+              borderColor: "grey",
+            }}
+          />
+
+          <Text
+            style={{
+              marginLeft: 10,
+              marginTop: 14,
+              fontSize: 18,
+              fontWeight: "bold",
+            }}
+          >
+            {curStore.name} {curStore.isCert && "☆"}
+          </Text>
+        </View>
+        <Category name={curStore.maCat} />
+
+        {/* <CloseButton onPress={() => {}} color="black" /> */}
+
+        {/* <Image
+                  style={styles.cardHeaderElement}
+                  source={require("./assets/saks.png")}
+                  resizeMode="cover"
+                />
+                <Image
+                  style={styles.cardHeaderElement}
+                  source={require("./assets/button/close_square_button.png")}
+                  resizeMode="cover"
+                /> */}
+      </View>
+      <View style={styles.detailContainer}>
+        <Example
+          navigation={navigation}
+          data={curStore}
+          update={setCurStore}
+        ></Example>
+      </View>
+
+      {/* <View style={styles.inputContainer}>
+        <Text>Comment</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your course goalas!"
+          onChangeText={() => {}}
+          value={"text"}
+        ></TextInput>
+      </View> */}
+
+      {/* <ScrollView style={styles.visitLog}>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>123</Text>
+        <Text>12344</Text>
+      </ScrollView> */}
+      {/* <View style={styles.detailContainer}>
+        <Text>{curStore.name}</Text>
+        <Text>{curStore.address}</Text>
+      </View> */}
       {/* <View style={styles.imageContainer}>
         <Text>Image</Text>
       </View>
@@ -23,7 +135,6 @@ const MapDetail = ({ navigation, route }) => {
         title="go to the list screen"
         onPress={() => navigation.navigate("MapDetail")}
       /> */}
-      <Example></Example>
     </View>
   );
 };
@@ -31,7 +142,49 @@ const MapDetail = ({ navigation, route }) => {
 export default MapDetail;
 
 const styles = StyleSheet.create({
-  pageContainer: { flex: 1 },
-  imageContainer: { flex: 3 },
-  detailContainer: { flex: 4 },
+  pageContainer: { flex: 1, backgroundColor: "#fff" },
+  imageContainer: { flex: 1 },
+  detailContainer: { flex: 5 },
+  visitLog: { flex: 1, paddingHorizontal: 20 },
+  // cardHeaderElement: {
+  //   // width: 44,
+  //   // height: 44,cardHeaderElement
+
+  //   borderRadius: 44 / 2,
+  // },
+  detailHeader: {
+    // width: 44,
+    // height: 44,
+    // borderRadius: 44 / 2,
+    // position: "absolute",
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+    paddingTop: 30,
+    paddingRight: 15,
+
+    // position: "absolute",
+    // paddingTop: 7,
+    // paddingRight: 15,
+    // left: 0,
+    // right: 0,
+    backgroundColor: "#fff",
+    zIndex: 999,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#cccccc",
+    width: "100%",
+    padding: 8,
+  },
+  inputContainer: {
+    // flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    // marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBotomColor: "#cccccc",
+    padding: 16,
+    flex: 1,
+  },
 });
