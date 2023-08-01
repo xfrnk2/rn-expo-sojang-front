@@ -3,6 +3,7 @@ import GoogleMap from "./GoogleMap";
 import MapDetail from "./MapDetail";
 import BottomTabNavigationApp from "./BottonTabNavigationApp";
 import { NavigationContainer } from "@react-navigation/native";
+import EditDetailScreen from "./screens/EditDetailScreen";
 const Stack = createStackNavigator();
 
 const MapStackNavigation = () => {
@@ -23,6 +24,11 @@ const MapStackNavigation = () => {
         <Stack.Screen
           name="MapDetail"
           component={MapDetail}
+          options={({ route }) => ({})}
+        />
+        <Stack.Screen
+          name="EditDetailScreen"
+          component={EditDetailScreen}
           options={({ route }) => ({})}
         />
       </Stack.Navigator>

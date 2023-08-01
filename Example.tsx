@@ -59,8 +59,18 @@ const Header = ({ navigation, data }) => {
             <Text>그 외</Text>
           </View>
           <Text>.</Text>
-          <View style={{ justifyContent: "center" }}>
-            <Text>123123</Text>
+          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate("EditDetailScreen", {
+                  data: data,
+                  navigation: navigation,
+                });
+              }}
+            >
+              <Text>이 가게의 주인이신가요?</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -77,7 +87,9 @@ const Example: React.FC = (props) => {
 
   return (
     <Tabs.Container
-      renderHeader={() => <Header data={props.data} />}
+      renderHeader={() => (
+        <Header navigation={props.navigation} data={props.data} />
+      )}
       headerHeight={HEADER_HEIGHT} // optional
       renderTabBar={(props) => (
         <MaterialTabBar
