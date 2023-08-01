@@ -59,6 +59,9 @@ const Header = ({ navigation, data }) => {
             <Text>그 외</Text>
           </View>
           <Text>.</Text>
+          <View style={{ justifyContent: "center" }}>
+            <Text>123123</Text>
+          </View>
         </View>
       </View>
     </View>
