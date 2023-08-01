@@ -14,8 +14,8 @@ import {
 } from "react-native";
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.5;
+const CARD_HEIGHT = 140;
+const CARD_WIDTH = width * 0.35;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 const images = [
   "https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
@@ -56,12 +56,12 @@ const HomeScreen = () => {
     <ScrollView style={styles.pageContainer}>
       <View style={styles.MainScreen}>
         <Text>This is Main Screen</Text>
-        <View style={{ height: 200, marginBottom: 50 }}>
+        <View style={{ height: 200, marginBottom: 20 }}>
           <BackgroundCarousel images={images} />
         </View>
       </View>
-      <View>
-        <Text>들러볼까요?</Text>
+      <View style={{ marginVertical: 10, marginLeft: 20 }}>
+        <Text style={{ fontSize: 20, fontWeight: 400 }}>들러볼까요?</Text>
       </View>
       <View style={styles.categoryList}>
         <View style={styles.gridContainer}>
@@ -95,19 +95,19 @@ const HomeScreen = () => {
           </View>
         </View>
       </View>
-      <View>
-        <Text>소장을 추천해요</Text>
+      <View style={{ marginVertical: 10, marginLeft: 20 }}>
+        <Text style={{ fontSize: 20, fontWeight: 400 }}>소장을 추천해요</Text>
       </View>
       <View style={styles.menuButtonBox}>
         <View style={styles.menuButton}>
-          <Text>인증 소장</Text>
+          <Text style={styles.menuButtonText}>인증 소장</Text>
         </View>
         <View style={styles.menuButton}>
-          <Text>쿠폰 소장</Text>
+          <Text style={styles.menuButtonText}>쿠폰 소장</Text>
         </View>
       </View>
       <View style={styles.cardList}>
-        <Text style={styles.cardListTitle}>cardListStart</Text>
+        <Text style={styles.cardListTitle}>인기 있는 가게</Text>
         <FlatList
           horizontal
           data={data}
@@ -122,18 +122,18 @@ const HomeScreen = () => {
               // </Card>
               <View style={styles.card} key={index}>
                 <Image
-                  source={require("./assets/marker/map_marker_auth_bright.png")}
+                  source={require("./assets/no-image.png")}
                   style={styles.cardImage}
                   resizeMode="cover"
                 />
 
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>
-                    title
+                    이름
                   </Text>
                   {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
                   <Text numberOfLines={1} style={styles.cardDescription}>
-                    describsiton
+                    00시 00동 00구
                   </Text>
                   <View style={styles.button}>
                     <TouchableOpacity
@@ -154,7 +154,7 @@ const HomeScreen = () => {
                           },
                         ]}
                       >
-                        Order Now
+                        방문하기
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -166,7 +166,7 @@ const HomeScreen = () => {
         />
       </View>
       <View style={styles.cardList}>
-        <Text style={styles.cardListTitle}>cardListStart</Text>
+        <Text style={styles.cardListTitle}>새로 인증한 가게</Text>
         <FlatList
           horizontal
           data={data}
@@ -181,7 +181,7 @@ const HomeScreen = () => {
               // </Card>
               <View style={styles.card} key={index}>
                 <Image
-                  source={require("./assets/marker/map_marker_auth_bright.png")}
+                  source={require("./assets/no-image.png")}
                   style={styles.cardImage}
                   resizeMode="cover"
                 />
@@ -224,65 +224,7 @@ const HomeScreen = () => {
         />
       </View>
 
-      <View style={styles.cardList}>
-        <Text style={styles.cardListTitle}>cardListStart</Text>
-        <FlatList
-          horizontal
-          data={data}
-          renderItem={({ item: rowData, index }) => {
-            return (
-              // <Card
-              //   title={null}
-              //   image={{ uri: rowData.imageUrl }}
-              //   containerStyle={{ padding: 0, width: 160 }}
-              // >
-              //   <Text style={{ marginBottom: 10 }}>{rowData.title}</Text>
-              // </Card>
-              <View style={styles.card} key={index}>
-                <Image
-                  source={require("./assets/marker/map_marker_auth_bright.png")}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                />
-                <View style={styles.textContent}>
-                  <Text numberOfLines={1} style={styles.cardtitle}>
-                    title
-                  </Text>
-                  {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
-                  <Text numberOfLines={1} style={styles.cardDescription}>
-                    describsiton
-                  </Text>
-                  <View style={styles.button}>
-                    <TouchableOpacity
-                      onPress={() => {}}
-                      style={[
-                        styles.signIn,
-                        {
-                          borderColor: "#FF6347",
-                          borderWidth: 1,
-                        },
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.textSign,
-                          {
-                            color: "#FF6347",
-                          },
-                        ]}
-                      >
-                        Order Now
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            );
-          }}
-          keyExtractor={(item, index) => index}
-        />
-      </View>
-      <View style={{ height: 500 }}></View>
+      <View style={{ height: 200 }}></View>
     </ScrollView>
   );
 };
@@ -369,14 +311,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
   menuButton: {
-    borderRadius: 35,
+    borderRadius: 15,
     borderWidth: 2,
     height: 50,
     width: Dimensions.get("window").width / 2 - 5,
 
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "#eFF6347",
+    borderColor: "#D8D8D8",
     shadowColor: "#7F5DF0",
     shadowOffset: {
       width: 0,
@@ -385,5 +327,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+  },
+  menuButtonText: {
+    fontSize: 15,
   },
 });
