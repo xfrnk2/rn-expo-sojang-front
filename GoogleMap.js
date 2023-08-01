@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import ModalTest from "./components/ModalTest";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
@@ -80,6 +81,7 @@ const storesData = [
     hasToilet: true,
   },
 ];
+export const mapRef = React.createRef();
 
 const GoogleMap = ({ navigation }) => {
   const [location, setLocation] = useState(null);
@@ -169,6 +171,7 @@ const GoogleMap = ({ navigation }) => {
       </View>
       {lag !== 0 && log !== 0 && (
         <MapView
+          ref={mapRef}
           style={styles.map}
           initialRegion={{
             latitude: lag,
@@ -180,6 +183,8 @@ const GoogleMap = ({ navigation }) => {
           clusterColor="#000000"
           maxZoom={12}
           minZoom={5}
+          showsUserLocation={true}
+          showsMyLocationButton={false}
           // onPress={(e) => unShowDetail(e)}
         >
           {/* <Marker
@@ -239,6 +244,30 @@ const GoogleMap = ({ navigation }) => {
           ))}
         </MapView>
       )}
+      <View
+        style={{
+          position: "absolute", //use absolute position to show button on top of the map
+          top: "85%", //for center align
+          right: "10%",
+          alignSelf: "flex-end", //for align to right
+          borderRadius: 20,
+          borderWidth: 1,
+          padding: 20,
+        }}
+      >
+        <MaterialIcon
+          size={30}
+          name="my-location"
+          onPress={() => {
+            mapRef.current.animateToRegion({
+              latitude: lag,
+              longitude: log,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            });
+          }}
+        />
+      </View>
       <View style={{}}>
         <View style={[styles.cardContainer, { zIndex: 999 }]}>
           {detailVisible && (
