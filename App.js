@@ -17,12 +17,13 @@ import {
 
 import * as Location from "expo-location";
 import "react-native-gesture-handler";
+import QRCodeScanner from "./QRCodeScanner";
 export default function App() {
   return (
     <View style={styles.appContainer}>
       {/* <QRCode value="https://naver.com" style={styles.qrCode} /> */}
       {/* <GoogleMap /> */}
-
+      {/* <QRCodeScanner></QRCodeScanner> */}
       <MapStackNavigation />
     </View>
   );

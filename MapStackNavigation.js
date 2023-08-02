@@ -3,7 +3,8 @@ import GoogleMap from "./GoogleMap";
 import MapDetail from "./MapDetail";
 import BottomTabNavigationApp from "./BottonTabNavigationApp";
 import { NavigationContainer } from "@react-navigation/native";
-import EditDetailScreen from "./screens/EditDetailScreen";
+import EditDetailScreen from "./screens/EditDetailScreen.js";
+import QRCodeScanner from "./QRCodeScanner";
 const Stack = createStackNavigator();
 
 const MapStackNavigation = () => {
@@ -29,6 +30,11 @@ const MapStackNavigation = () => {
         <Stack.Screen
           name="EditDetailScreen"
           component={EditDetailScreen}
+          options={({ route }) => ({})}
+        />
+        <Stack.Screen
+          name="qrScanner"
+          component={QRCodeScanner}
           options={({ route }) => ({})}
         />
       </Stack.Navigator>

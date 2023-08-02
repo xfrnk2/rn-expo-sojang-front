@@ -62,7 +62,7 @@ const storesData = [
     address: "경기도 김포시 장기동 1902-1",
     lon: 126.670780777331,
     lat: 37.6487005470003,
-    isCert: false,
+    isCert: true,
     hasParkingLot: false,
     hasElevator: false,
     hasToilet: false,
@@ -96,6 +96,7 @@ const GoogleMap = ({ navigation }) => {
   const [detailVisible, setDetailVisible] = useState(false);
   const [isAddingStore, setIsAddingStore] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  let storeId = 4;
 
   const showDetail = (event) => {
     console.log("showdetail");
@@ -150,6 +151,12 @@ const GoogleMap = ({ navigation }) => {
 
       let currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
+      setPin([
+        {
+          lat: currentLocation.coords.latitude,
+          lon: currentLocation.coords.longitude,
+        },
+      ]);
     })();
 
     // (async () => {
@@ -219,6 +226,7 @@ const GoogleMap = ({ navigation }) => {
             latitudeDelta: 0.009,
             longitudeDelta: 0.004,
           }}
+          tracksViewChanges={true}
           provider={PROVIDER_GOOGLE}
           clusterColor="#000000"
           maxZoom={12}
@@ -227,19 +235,20 @@ const GoogleMap = ({ navigation }) => {
           showsMyLocationButton={false}
           // onPress={(e) => unShowDetail(e)}
           onPress={(e) => {
-            setPin([
-              {
-                lon: e.nativeEvent.coordinate.longitude,
-                lat: e.nativeEvent.coordinate.latitude,
-              },
-            ]);
-            if (isPinShowable) {
+            if (isAddingStore && isPinShowable) {
+              setPin([
+                {
+                  lon: e.nativeEvent.coordinate.longitude,
+                  lat: e.nativeEvent.coordinate.latitude,
+                },
+              ]);
+
               pinMarker.current.showCallout();
+
+              console.log("추가완료");
             }
 
             //{ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }] }
-
-            console.log("추가완료");
           }}
         >
           {/* <Marker
@@ -289,10 +298,14 @@ const GoogleMap = ({ navigation }) => {
                 setCurStore(stores[marker.id - 1]);
                 showDetail(e);
               }}
-              tracksViewChanges={false}
+              tracksViewChanges={true}
             >
               <Image
-                source={require("./assets/marker/map_marker_auth_bright.png")}
+                source={
+                  marker.isCert
+                    ? require("./assets/marker/map_marker_auth_bright.png")
+                    : require("./assets/marker/map_marker_normal.png")
+                }
                 style={{ width: 50, height: 50 }}
               />
             </Marker>
@@ -340,20 +353,64 @@ const GoogleMap = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>가게 이름</Text>
-            <Text style={styles.modalText}>주소</Text>
-            <View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.modalText}>가게 이름</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="이름을 입력하세요"
+                // onChangeText={goalInputHandler}
+                // value={enteredGoalText}
+              ></TextInput>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.modalText}>주소</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Your course goalas!"
+                // onChangeText={goalInputHandler}
+                value={"테스트 중입니다."}
+              ></TextInput>
+            </View>
+            <View style={styles.modalFooter}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalIsVisible(!modalIsVisible)}
+                onPress={() => {
+                  setModalIsVisible(!modalIsVisible);
+                  setIsAddingStore(false);
+                  setIsPinShowable(false);
+                  setStores([
+                    ...stores,
+                    {
+                      id: storeId++,
+                      name: "신규 생성된 가게(테스트)",
+                      maCat: "음식",
+                      miCat: "서양식",
+                      sido: "경기도",
+                      sigungu: "김포시",
+                      dong: "풍무동",
+                      address: "신규 생성된 가게(테스트)",
+                      lon: pin[0].lon,
+                      lat: pin[0].lat,
+                      isCert: false,
+                      hasParkingLot: false,
+                      hasElevator: false,
+                      hasToilet: false,
+                    },
+                  ]);
+                }}
               >
                 <Text style={styles.textStyle}>등록</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalIsVisible(!modalIsVisible)}
+                onPress={() => {
+                  setModalIsVisible(!modalIsVisible);
+                  setIsAddingStore(false);
+                  setIsPinShowable(false);
+                }}
               >
-                <Text style={styles.textStyle}>닫기</Text>
+                <Text style={styles.textStyle}>취소</Text>
               </Pressable>
             </View>
           </View>
@@ -387,7 +444,7 @@ const GoogleMap = ({ navigation }) => {
         <View
           style={{
             position: "absolute", //use absolute position to show button on top of the map
-            top: "75%", //for center align
+            top: "76.5%", //for center align
             right: "30%",
             alignSelf: "flex-end", //for align to right
             flexDirection: "column",
@@ -703,7 +760,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: "94%",
-    height: "77%",
+    height: 400,
     margin: 20,
 
     backgroundColor: "white",
@@ -720,9 +777,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
+    flex: 1,
     borderRadius: 20,
-    padding: 10,
+    margin: 10,
+    paddingHorizontal: 10,
     elevation: 2,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -734,9 +796,36 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 14,
   },
   modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+    marginBottom: 5,
+    textAlign: "left",
+    fontSize: 14,
+  },
+  inputContainer: {
+    flex: 1,
+    // flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginBottom: 24,
+    width: "100%",
+    borderBottomWidth: 1,
+    borderBotomColor: "#cccccc",
+    padding: 16,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#cccccc",
+    width: "100%",
+    padding: 8,
+    height: 50,
+  },
+  modalFooter: {
+    flexDirection: "row",
+    flex: 1,
   },
 });
