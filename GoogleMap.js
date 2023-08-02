@@ -2,6 +2,7 @@ import { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 //import MapView from "react-native-maps";
 import MapView from "react-native-map-clustering";
 import {
+  Alert,
   StyleSheet,
   View,
   Button,
@@ -10,12 +11,14 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  Modal,
+  Pressable,
 } from "react-native";
 import ModalTest from "./components/ModalTest";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CustomMarker from "./components/markers/CustomMarker";
 import * as Location from "expo-location";
 import BackspaceButton from "./components/BackspaceButton";
@@ -59,7 +62,7 @@ const storesData = [
     address: "경기도 김포시 장기동 1902-1",
     lon: 126.670780777331,
     lat: 37.6487005470003,
-    isCert: false,
+    isCert: true,
     hasParkingLot: false,
     hasElevator: false,
     hasToilet: false,
@@ -87,8 +90,13 @@ const GoogleMap = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [stores, setStores] = useState(storesData);
+  const [pin, setPin] = useState([]);
+  const [isPinShowable, setIsPinShowable] = useState(false);
   const [curStore, setCurStore] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
+  const [isAddingStore, setIsAddingStore] = useState(false);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+  let storeId = 4;
 
   const showDetail = (event) => {
     console.log("showdetail");
@@ -99,6 +107,39 @@ const GoogleMap = ({ navigation }) => {
     console.log("unshowdetail");
     setDetailVisible(false);
   };
+  const pinMarker = useRef(null);
+  const pinIsNotSelectedAlert = () =>
+    Alert.alert(
+      "위치가 선택되지 않았어요.",
+      "등록을 희망하는 지도상 위치를 눌러 주세요",
+      [
+        {
+          text: "닫기",
+          onPress: () => console.log("위치가 선택되지 않았어요."),
+          style: "cancel",
+        },
+      ]
+    );
+
+  const checkCreateStoreAlert = () =>
+    Alert.alert(
+      "가게를 방문하셨나요?",
+      "선택한 위치에 가게 정보를 만드시겠어요? 이름과 주소가 필요합니다.",
+      [
+        {
+          text: "닫기",
+          onPress: () => console.log("가게정보 생성 닫기"),
+          style: "cancel",
+        },
+        {
+          text: "등록",
+          onPress: () => {
+            console.log("가게정보 생성 등록 버튼 눌림");
+            setModalIsVisible(true);
+          },
+        },
+      ]
+    );
 
   useEffect(() => {
     (async () => {
@@ -110,6 +151,12 @@ const GoogleMap = ({ navigation }) => {
 
       let currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
+      setPin([
+        {
+          lat: currentLocation.coords.latitude,
+          lon: currentLocation.coords.longitude,
+        },
+      ]);
     })();
 
     // (async () => {
@@ -179,6 +226,7 @@ const GoogleMap = ({ navigation }) => {
             latitudeDelta: 0.009,
             longitudeDelta: 0.004,
           }}
+          tracksViewChanges={true}
           provider={PROVIDER_GOOGLE}
           clusterColor="#000000"
           maxZoom={12}
@@ -186,6 +234,22 @@ const GoogleMap = ({ navigation }) => {
           showsUserLocation={true}
           showsMyLocationButton={false}
           // onPress={(e) => unShowDetail(e)}
+          onPress={(e) => {
+            if (isAddingStore && isPinShowable) {
+              setPin([
+                {
+                  lon: e.nativeEvent.coordinate.longitude,
+                  lat: e.nativeEvent.coordinate.latitude,
+                },
+              ]);
+
+              pinMarker.current.showCallout();
+
+              console.log("추가완료");
+            }
+
+            //{ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }] }
+          }}
         >
           {/* <Marker
             coordinate={{
@@ -234,16 +298,124 @@ const GoogleMap = ({ navigation }) => {
                 setCurStore(stores[marker.id - 1]);
                 showDetail(e);
               }}
-              tracksViewChanges={false}
+              tracksViewChanges={true}
             >
               <Image
-                source={require("./assets/marker/map_marker_auth_bright.png")}
+                source={
+                  marker.isCert
+                    ? require("./assets/marker/map_marker_auth_bright.png")
+                    : require("./assets/marker/map_marker_normal.png")
+                }
                 style={{ width: 50, height: 50 }}
               />
             </Marker>
+
+            //  핀
           ))}
+
+          {isPinShowable &&
+            pin.map((marker, index) => (
+              <Marker
+                ref={pinMarker}
+                key={index}
+                coordinate={{
+                  latitude: marker.lat,
+                  longitude: marker.lon,
+                }}
+                pinColor="#2D63E2"
+                title={"이 곳에 가게를 등록해요"}
+                onCalloutPress={checkCreateStoreAlert}
+                // description={marker.nM}
+                anchor={{ x: 0.5, y: 1 }}
+                showsUserLocation
+                loadingEnabled
+                showsMyLocationButton
+                tracksViewChanges={false}
+              >
+                {/* <Image
+                source={require("./assets/marker/map_marker_normal.png")}
+                style={{ width: 50, height: 50 }}
+              /> */}
+              </Marker>
+
+              //  핀
+            ))}
         </MapView>
       )}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalIsVisible}
+        onRequestClose={() => {
+          // Alert.alert("Modal has been closed.");
+          setModalIsVisible(!modalIsVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.modalText}>가게 이름</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="이름을 입력하세요"
+                // onChangeText={goalInputHandler}
+                // value={enteredGoalText}
+              ></TextInput>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.modalText}>주소</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Your course goalas!"
+                // onChangeText={goalInputHandler}
+                value={"테스트 중입니다."}
+              ></TextInput>
+            </View>
+            <View style={styles.modalFooter}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setModalIsVisible(!modalIsVisible);
+                  setIsAddingStore(false);
+                  setIsPinShowable(false);
+                  setStores([
+                    ...stores,
+                    {
+                      id: storeId++,
+                      name: "신규 생성된 가게(테스트)",
+                      maCat: "음식",
+                      miCat: "서양식",
+                      sido: "경기도",
+                      sigungu: "김포시",
+                      dong: "풍무동",
+                      address: "신규 생성된 가게(테스트)",
+                      lon: pin[0].lon,
+                      lat: pin[0].lat,
+                      isCert: false,
+                      hasParkingLot: false,
+                      hasElevator: false,
+                      hasToilet: false,
+                    },
+                  ]);
+                }}
+              >
+                <Text style={styles.textStyle}>등록</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setModalIsVisible(!modalIsVisible);
+                  setIsAddingStore(false);
+                  setIsPinShowable(false);
+                }}
+              >
+                <Text style={styles.textStyle}>취소</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           position: "absolute", //use absolute position to show button on top of the map
@@ -268,6 +440,81 @@ const GoogleMap = ({ navigation }) => {
           }}
         />
       </View>
+      {isAddingStore && (
+        <View
+          style={{
+            position: "absolute", //use absolute position to show button on top of the map
+            top: "76.5%", //for center align
+            right: "30%",
+            alignSelf: "flex-end", //for align to right
+            flexDirection: "column",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              borderRadius: 20,
+              borderWidth: 1,
+              padding: 20,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => {
+              if (pin == null) {
+                pinIsNotSelectedAlert();
+              } else {
+                checkCreateStoreAlert();
+              }
+            }}
+          >
+            <Text style={{ fontSize: 15, height: 30, width: 30 }}>등록</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              borderRadius: 20,
+              borderWidth: 1,
+              padding: 20,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => {
+              setIsPinShowable(false);
+              setIsAddingStore(false);
+            }}
+          >
+            <Text style={{ fontSize: 15, height: 30, width: 30 }}>취소</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {!isAddingStore && (
+        <View
+          style={{
+            position: "absolute", //use absolute position to show button on top of the map
+            top: "85%", //for center align
+            right: "30%",
+            alignSelf: "flex-end", //for align to right
+            borderRadius: 20,
+            borderWidth: 1,
+            padding: 20,
+          }}
+        >
+          <MaterialIcon
+            size={30}
+            name="add-business"
+            onPress={() => {
+              mapRef.current.animateToRegion({
+                latitude: lag,
+                longitude: log,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              });
+              setIsPinShowable(true);
+              setIsAddingStore(true);
+              // setPin(null);
+            }}
+          />
+        </View>
+      )}
       <View style={{}}>
         <View style={[styles.cardContainer, { zIndex: 999 }]}>
           {detailVisible && (
@@ -337,6 +584,7 @@ const GoogleMap = ({ navigation }) => {
                   />
                 </TouchableOpacity> */}
                 <TabView
+                  style={{ zIndex: 999 }}
                   navigation={navigation}
                   data={curStore}
                   update={setCurStore}
@@ -501,5 +749,83 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignSelf: "center",
+  },
+  centeredView: {
+    flex: 1,
+
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+  },
+  modalView: {
+    width: "94%",
+    height: 400,
+    margin: 20,
+
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    flex: 1,
+    borderRadius: 20,
+    margin: 10,
+    paddingHorizontal: 10,
+    elevation: 2,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 14,
+  },
+  modalText: {
+    marginBottom: 5,
+    textAlign: "left",
+    fontSize: 14,
+  },
+  inputContainer: {
+    flex: 1,
+    // flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginBottom: 24,
+    width: "100%",
+    borderBottomWidth: 1,
+    borderBotomColor: "#cccccc",
+    padding: 16,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#cccccc",
+    width: "100%",
+    padding: 8,
+    height: 50,
+  },
+  modalFooter: {
+    flexDirection: "row",
+    flex: 1,
   },
 });
