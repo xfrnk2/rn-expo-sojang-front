@@ -16,7 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.bsk.sojang",
       "config": {
-        "googleMapsApiKey": "AIzaSyA2ISDphfa_0gxNMO-s2Dhd0-_xNuK7IZA"
+        "googleMapsApiKey": ""
       },
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Your location is needed for the app to function properly."
@@ -31,7 +31,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyAuL7FS0w7ozqgA-6ucmd3Vni_011NXgxA"
+          "apiKey": ""
         }
       }
     },
@@ -40,8 +40,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "42587840-9b6e-43d4-b063-8e738a536d54"
+        "projectId": ""
       }
-    }
+    },
+    "owner": "xfrnk2"
   }
 }
