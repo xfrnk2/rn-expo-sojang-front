@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "sojang",
+    "slug": "sojang",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bsk.sojang",
+      "config": {
+        "googleMapsApiKey": "AIzaSyA2ISDphfa_0gxNMO-s2Dhd0-_xNuK7IZA"
+      },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Your location is needed for the app to function properly."
+      }
+    },
+    "android": {
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "package": "com.bsk.sojang",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAuL7FS0w7ozqgA-6ucmd3Vni_011NXgxA"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8a97d6af-cb33-447b-a8d3-bb385947222e"
+      }
+    }
+  }
+}
