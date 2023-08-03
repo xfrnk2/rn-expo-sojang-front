@@ -5,6 +5,7 @@ import BottomTabNavigationApp from "./BottonTabNavigationApp";
 import { NavigationContainer } from "@react-navigation/native";
 import EditDetailScreen from "./screens/EditDetailScreen.js";
 import QRCodeScanner from "./QRCodeScanner";
+import ResultList from "./ResultList";
 const Stack = createStackNavigator();
 
 const MapStackNavigation = () => {
@@ -35,6 +36,11 @@ const MapStackNavigation = () => {
         <Stack.Screen
           name="qrScanner"
           component={QRCodeScanner}
+          options={({ route }) => ({})}
+        />
+        <Stack.Screen
+          name="ResultList"
+          component={ResultList}
           options={({ route }) => ({})}
         />
       </Stack.Navigator>

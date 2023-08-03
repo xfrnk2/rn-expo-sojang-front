@@ -58,7 +58,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingTop: 28,
+          // paddingTop: 28,
           paddingHorizontal: 20,
         }}
       >
