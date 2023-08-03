@@ -13,7 +13,17 @@ const Tab = createBottomTabNavigator();
 // https://oblador.github.io/react-native-vector-icons/
 
 function MyPageScreen() {
-  return <Text>Community</Text>;
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Image
+        source={require("./assets/no-data.png")}
+        style={{
+          width: 50,
+          height: 50,
+        }}
+      ></Image>
+    </View>
+  );
 }
 
 const CustomTabBarButton = ({ children, onPress }) => (

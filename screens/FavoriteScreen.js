@@ -53,12 +53,12 @@ const FavoriteScreen = ({ navigation, data, update }) => {
     <View style={{ flex: 1 }}>
       <View
         style={{
-          height: 85,
+          height: 60,
           backgroundColor: "#fff",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingTop: 28,
+
           paddingHorizontal: 20,
         }}
       >
@@ -84,7 +84,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                marginBottom: 4,
+                marginBottom: 2,
               }}
             >
               <Category name={"전체"}></Category>
@@ -224,7 +224,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                marginBottom: 4,
+                marginBottom: 2,
               }}
             >
               <Category name={"전체"}></Category>
@@ -361,7 +361,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                marginBottom: 4,
+                marginBottom: 2,
               }}
             >
               <Category name={"전체"}></Category>
@@ -497,7 +497,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                marginBottom: 4,
+                marginBottom: 2,
               }}
             >
               <Category name={"전체"}></Category>
@@ -667,7 +667,7 @@ const styles = StyleSheet.create({
     alignItems: "space-between",
     justifyContent: "space-between",
     marginTop: -2,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   detail: {
     alignItems: "flex-start",

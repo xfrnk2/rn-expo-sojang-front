@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import ResultList from "./ResultList";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 140;
@@ -27,35 +28,86 @@ const images = [
 const data = [
   {
     imageUrl: "http://via.placeholder.com/160x160",
-    title: "something",
+    title: "뱀부포레스트",
+    address: "경기도 김포시 하성면",
+    detail: {
+      id: 3,
+      name: "뱀부포레스트",
+      maCat: "음식",
+      miCat: "서양식",
+      sido: "경기도",
+      sigungu: "김포시",
+      dong: "하성면",
+      address: "경기도 김포시 하성면 전류리 67-34",
+      lon: 126.661722810667,
+      lat: 37.6968826880415,
+      isCert: true,
+      hasParkingLot: true,
+      hasElevator: true,
+      hasToilet: true,
+    },
   },
   {
     imageUrl: "http://via.placeholder.com/160x160",
-    title: "something two",
+    title: "레드스모크하우스",
+    address: "경기도 김포시 장기동",
+    detail: {
+      id: 2,
+      name: "레드스모크하우스",
+      maCat: "음식",
+      miCat: "서양식",
+      sido: "경기도",
+      sigungu: "김포시",
+      dong: "장기동",
+      address: "경기도 김포시 장기동 1902-1",
+      lon: 126.670780777331,
+      lat: 37.6487005470003,
+      isCert: true,
+      hasParkingLot: false,
+      hasElevator: false,
+      hasToilet: false,
+    },
   },
   {
     imageUrl: "http://via.placeholder.com/160x160",
-    title: "something three",
+    title: "타코박스김포",
+    address: "경기도 김포시 풍무동",
+    detail: {
+      id: 1,
+      name: "타코박스김포",
+      maCat: "음식",
+      miCat: "서양식",
+      sido: "경기도",
+      sigungu: "김포시",
+      dong: "풍무동",
+      address: "경기도 김포시 풍무동 191-2",
+      lon: 126.726136342025,
+      lat: 37.6068916938773,
+      isCert: true,
+      hasParkingLot: false,
+      hasElevator: true,
+      hasToilet: false,
+    },
   },
-  {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something four",
-  },
-  {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something five",
-  },
-  {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something six",
-  },
+  // {
+  //   imageUrl: "http://via.placeholder.com/160x160",
+  //   title: "something four",
+  // },
+  // {
+  //   imageUrl: "http://via.placeholder.com/160x160",
+  //   title: "something five",
+  // },
+  // {
+  //   imageUrl: "http://via.placeholder.com/160x160",
+  //   title: "something six",
+  // },
 ];
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.pageContainer}>
       <View style={styles.MainScreen}>
-        <Text>This is Main Screen</Text>
+        {/* <Text>This is Main Screen</Text> */}
         <View style={{ height: 200, marginBottom: 20 }}>
           <BackgroundCarousel images={images} />
         </View>
@@ -65,46 +117,88 @@ const HomeScreen = () => {
       </View>
       <View style={styles.categoryList}>
         <View style={styles.gridContainer}>
-          <View style={styles.gridItem}>
+          <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => {
+              navigation.navigate("ResultList", {
+                cat: "음식점",
+              });
+            }}
+          >
             <Image
               style={{ width: "60%", height: "70%" }}
               source={require("./assets/icons/restaurant.png")}
             />
             <Text style={styles.gridItemText}>음식점</Text>
-          </View>
-          <View style={styles.gridItem}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => {
+              navigation.navigate("ResultList", {
+                cat: "카페",
+              });
+            }}
+          >
             <Image
               style={{ width: "70%", height: "70%" }}
               source={require("./assets/icons/sign.png")}
             />
             <Text style={styles.gridItemText}>카페</Text>
-          </View>
-          <View style={styles.gridItem}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => {
+              navigation.navigate("ResultList", {
+                cat: "미용실",
+              });
+            }}
+          >
             <Image
               style={{ width: "60%", height: "70%" }}
               source={require("./assets/icons/beauty.png")}
             />
             <Text style={styles.gridItemText}>미용실</Text>
-          </View>
-          <View style={styles.gridItem}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => {
+              navigation.navigate("ResultList", {
+                cat: "편의점",
+              });
+            }}
+          >
             <Image
               style={{ width: "60%", height: "70%" }}
               source={require("./assets/icons/convenience-store.png")}
             />
             <Text style={styles.gridItemText}>편의점</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{ marginVertical: 10, marginLeft: 20 }}>
         <Text style={{ fontSize: 20, fontWeight: 400 }}>소장을 추천해요</Text>
       </View>
       <View style={styles.menuButtonBox}>
-        <View style={styles.menuButton}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => {
+            navigation.navigate("ResultList", {
+              cat: "인증한 가게",
+            });
+          }}
+        >
           <Text style={styles.menuButtonText}>인증 소장</Text>
-        </View>
-        <View style={styles.menuButton}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => {
+            navigation.navigate("ResultList", {
+              cat: "쿠폰이 있는 가게",
+            });
+          }}
+        >
           <Text style={styles.menuButtonText}>쿠폰 소장</Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.cardList}>
         <Text style={styles.cardListTitle}>인기 있는 가게</Text>
@@ -129,15 +223,20 @@ const HomeScreen = () => {
 
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>
-                    이름
+                    {rowData.title}
                   </Text>
                   {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
                   <Text numberOfLines={1} style={styles.cardDescription}>
-                    00시 00동 00구
+                    {rowData.address}
                   </Text>
                   <View style={styles.button}>
                     <TouchableOpacity
-                      onPress={() => {}}
+                      onPress={() => {
+                        navigation.navigate("MapDetail", {
+                          data: rowData.detail,
+                          title: rowData.name,
+                        });
+                      }}
                       style={[
                         styles.signIn,
                         {
@@ -187,15 +286,20 @@ const HomeScreen = () => {
                 />
                 <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>
-                    title
+                    {rowData.title}
                   </Text>
                   {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
                   <Text numberOfLines={1} style={styles.cardDescription}>
-                    describsiton
+                    {rowData.address}
                   </Text>
                   <View style={styles.button}>
                     <TouchableOpacity
-                      onPress={() => {}}
+                      onPress={() => {
+                        navigation.navigate("MapDetail", {
+                          data: rowData.detail,
+                          title: rowData.name,
+                        });
+                      }}
                       style={[
                         styles.signIn,
                         {
@@ -212,7 +316,7 @@ const HomeScreen = () => {
                           },
                         ]}
                       >
-                        Order Now
+                        방문하기
                       </Text>
                     </TouchableOpacity>
                   </View>
