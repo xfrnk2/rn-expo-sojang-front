@@ -53,7 +53,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
     <View style={{ flex: 1 }}>
       <View
         style={{
-          height: 50,
+          height: 60,
           backgroundColor: "#fff",
           flexDirection: "row",
           justifyContent: "space-between",

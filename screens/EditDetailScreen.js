@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     justifyContent: "space-between",
-    paddingTop: 30,
+
     paddingRight: 15,
 
     // position: "absolute",

@@ -671,7 +671,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     opacity: 0.75,
     paddingRight: 15,
-    height: 75,
+    height: 60,
     position: "absolute",
     // paddingTop: 20,
     paddingRight: 15,
