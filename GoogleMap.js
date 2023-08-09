@@ -28,7 +28,11 @@ import Example from "./Example";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabView from "./TabView";
 import CloseButton from "./components/CloseButton";
-
+import {
+  NAVER_CLIENT_ID,
+  NAVER_CLIENT_SECRET,
+  REVERSE_GEOCODING_URL,
+} from "@env";
 const Stack = createStackNavigator();
 
 const { width, height } = Dimensions.get("window");
@@ -96,6 +100,7 @@ const GoogleMap = ({ navigation }) => {
   const [detailVisible, setDetailVisible] = useState(false);
   const [isAddingStore, setIsAddingStore] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [pinAddress, setPinAddress] = useState(["", "", ""]);
   let storeId = 4;
 
   const showDetail = (event) => {
@@ -133,9 +138,35 @@ const GoogleMap = ({ navigation }) => {
         },
         {
           text: "등록",
-          onPress: () => {
+          onPress: async () => {
             console.log("가게정보 생성 등록 버튼 눌림");
-            setModalIsVisible(true);
+
+            await axios
+              .get(REVERSE_GEOCODING_URL, {
+                params: {
+                  targetcrs: "epsg:3857",
+                  orders: "legalcode",
+                  output: "json",
+                  coords: `${pin[0].lon},${pin[0].lat}`,
+                },
+                headers: {
+                  "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
+                  "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
+                },
+              })
+              .then((data) => {
+                setPinAddress([
+                  data.data.results[0].region.area1.name,
+                  data.data.results[0].region.area2.name,
+                  data.data.results[0].region.area3.name,
+                ]);
+              })
+              .then(() => {
+                setModalIsVisible(true);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
           },
         },
       ]
@@ -369,7 +400,11 @@ const GoogleMap = ({ navigation }) => {
                 style={styles.textInput}
                 placeholder="Your course goalas!"
                 // onChangeText={goalInputHandler}
-                value={"테스트 중입니다."}
+
+                // value={"테스트 중입니다."}
+                value={
+                  pinAddress[0] + " " + pinAddress[1] + " " + pinAddress[2]
+                }
               ></TextInput>
             </View>
             <View style={styles.modalFooter}>
