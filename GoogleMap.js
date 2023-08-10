@@ -33,6 +33,7 @@ import {
   NAVER_CLIENT_SECRET,
   REVERSE_GEOCODING_URL,
 } from "@env";
+import { Picker } from "@react-native-picker/picker";
 const Stack = createStackNavigator();
 
 const { width, height } = Dimensions.get("window");
@@ -101,6 +102,7 @@ const GoogleMap = ({ navigation }) => {
   const [isAddingStore, setIsAddingStore] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [pinAddress, setPinAddress] = useState(["", "", ""]);
+  const [pickerCategory, setPickerCategory] = useState("판매지역");
   let storeId = 4;
 
   const showDetail = (event) => {
@@ -384,29 +386,51 @@ const GoogleMap = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <View style={styles.inputContainerTitle}>
+              <Text
+                style={{ textAlign: "left", fontSize: 20, fontWeight: "bold" }}
+              >
+                새로운 가게를 등록해요
+              </Text>
+            </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.modalText}>가게 이름</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="이름을 입력하세요"
-                // onChangeText={goalInputHandler}
-                // value={enteredGoalText}
-              ></TextInput>
+              <Text style={styles.modalText}>이름</Text>
+              <View style={styles.textInputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="가게 이름을 입력 해 주세요"
+                  // onChangeText={goalInputHandler}
+                  // value={enteredGoalText}
+                ></TextInput>
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.modalText}>카테고리</Text>
+              <View style={styles.textInputBox}>
+                <Picker
+                  style={styles.textInput}
+                  selectedValue={pickerCategory}
+                  onValueChange={(value, index) => {
+                    setPickerCategory(value);
+                  }}
+                >
+                  <Picker.Item label="업종을 선택하세요" value="" />
+                  <Picker.Item label="음식점" value="restaurant" />
+                  <Picker.Item label="카페" value="cafe" />
+                  <Picker.Item label="미용실" value="hairshop" />
+                  <Picker.Item label="편의점" value="convStore" />
+                </Picker>
+              </View>
             </View>
 
             <View style={styles.inputContainer}>
               <Text style={styles.modalText}>주소</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Your course goalas!"
-                // onChangeText={goalInputHandler}
-
-                // value={"테스트 중입니다."}
-                value={
-                  pinAddress[0] + " " + pinAddress[1] + " " + pinAddress[2]
-                }
-              ></TextInput>
+              <Text style={styles.textAddress}>
+                {pinAddress[0] + " " + pinAddress[1] + " " + pinAddress[2]}
+              </Text>
             </View>
+
             <View style={styles.modalFooter}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -681,12 +705,12 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: "90%",
     alignSelf: "center",
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 10,
     shadowColor: "#ccc",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
-    shadowRadius: 5,
+    shadowRadius: 10,
     elevation: 10,
     top: 70,
     left: 15,
@@ -730,13 +754,10 @@ const styles = StyleSheet.create({
 
     elevation: 5,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
+    borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 10,
-    shadowRadius: 5,
+    shadowRadius: 10,
     shadowOpacity: 0.7,
     shadowColor: "#000",
     // shadowOffset: { x: 2, y: -2 },
@@ -792,15 +813,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 100, height: 100 },
+
+    shadowRadius: 3,
+    shadowOpacity: 0.7,
   },
   modalView: {
     width: "94%",
     height: 400,
-    margin: 20,
-
+    margin: 5,
+    borderRadius: 3,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    shadowRadius: 3,
+    shadowOpacity: 0.7,
+    shadowColor: "#000",
+    shadowOffset: { width: 100, height: 100 },
+    padding: 15,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -808,12 +838,17 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 10,
     elevation: 5,
   },
   button: {
     flex: 1,
-    borderRadius: 20,
+    borderRadius: 10,
+
+    shadowRadius: 10,
+    shadowOpacity: 0.7,
+    shadowColor: "#000",
+    shadowOffset: { width: 100, height: 100 },
     margin: 10,
     paddingHorizontal: 10,
     elevation: 2,
@@ -848,19 +883,51 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     marginBottom: 24,
     width: "100%",
-    borderBottomWidth: 1,
-    borderBotomColor: "#cccccc",
+    // borderBottomWidth: 1,
+    // borderBotomColor: "#cccccc",
     padding: 16,
   },
+  inputContainerTitle: {
+    flex: 1,
+    // flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
+    width: "100%",
+    // borderBottomWidth: 1,
+    // borderBotomColor: "#cccccc",
+    padding: 5,
+  },
+  textInputBox: {
+    borderBottomWidth: 1,
+  },
   textInput: {
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: "#cccccc",
+    // backgroundColor: "#cccccc",
+    // borderRadius: 10,
+    width: "100%",
+    padding: 8,
+    height: 50,
+    paddingLeft: 16,
+    fontSize: 15,
+  },
+  textAddress: {
+    width: "100%",
+    padding: 8,
+    height: 50,
+    fontSize: 15,
+    paddingLeft: 16,
+  },
+  picker: {
+    // borderWidth: 1,
+    // borderColor: "#cccccc",
+    borderRadius: 10,
     width: "100%",
     padding: 8,
     height: 50,
   },
   modalFooter: {
     flexDirection: "row",
-    flex: 1,
+    flex: 2,
   },
 });
