@@ -409,17 +409,20 @@ const GoogleMap = ({ navigation }) => {
               <Text style={styles.modalText}>카테고리</Text>
               <View style={styles.textInputBox}>
                 <Picker
-                  style={styles.textInput}
+                  style={[styles.textInput, { zIndex: 999 }]}
                   selectedValue={pickerCategory}
                   onValueChange={(value, index) => {
                     setPickerCategory(value);
                   }}
                 >
-                  <Picker.Item label="업종을 선택하세요" value="" />
-                  <Picker.Item label="음식점" value="restaurant" />
+                  <Picker.Item label="편의점" value="convStore" />
                   <Picker.Item label="카페" value="cafe" />
                   <Picker.Item label="미용실" value="hairshop" />
-                  <Picker.Item label="편의점" value="convStore" />
+                  <Picker.Item label="한식 음식점" value="restaurant" />
+                  <Picker.Item label="양식 음식점" value="restaurant" />
+                  <Picker.Item label="중식 음식점" value="restaurant" />
+                  <Picker.Item label="동남아시아식 음식점" value="restaurant" />
+                  <Picker.Item label="기타 음식점" value="restaurant" />
                 </Picker>
               </View>
             </View>
@@ -432,8 +435,18 @@ const GoogleMap = ({ navigation }) => {
             </View>
 
             <View style={styles.modalFooter}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setModalIsVisible(!modalIsVisible);
+                  setIsAddingStore(false);
+                  setIsPinShowable(false);
+                }}
+              >
+                <Text style={styles.textStyle}>취소</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => {
                   setModalIsVisible(!modalIsVisible);
                   setIsAddingStore(false);
@@ -460,17 +473,7 @@ const GoogleMap = ({ navigation }) => {
                 }}
               >
                 <Text style={styles.textStyle}>등록</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  setModalIsVisible(!modalIsVisible);
-                  setIsAddingStore(false);
-                  setIsPinShowable(false);
-                }}
-              >
-                <Text style={styles.textStyle}>취소</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -478,35 +481,166 @@ const GoogleMap = ({ navigation }) => {
       <View
         style={{
           position: "absolute", //use absolute position to show button on top of the map
-          top: "85%", //for center align
+          top: "75%", //for center align
           right: "10%",
           alignSelf: "flex-end", //for align to right
-          borderRadius: 20,
-          borderWidth: 1,
-          padding: 20,
+
+          flexDirection: "row-reverse",
         }}
       >
-        <MaterialIcon
-          size={30}
-          name="my-location"
-          onPress={() => {
-            mapRef.current.animateToRegion({
-              latitude: lag,
-              longitude: log,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            });
-          }}
-        />
+        <View style={{ marginLeft: 5 }}>
+          <View style={{ flexDirection: "column-reverse" }}>
+            <MaterialIcon
+              style={{
+                borderRadius: 20,
+
+                padding: 20,
+                color: "#717171",
+                backgroundColor: "#ffffff",
+                shadowRadius: 20,
+                shadowOpacity: 0.7,
+                shadowColor: "#000",
+                shadowOffset: { width: 100, height: 100 },
+                elevation: 3,
+              }}
+              size={30}
+              name="my-location"
+              onPress={() => {
+                mapRef.current.animateToRegion({
+                  latitude: lag,
+                  longitude: log,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                });
+              }}
+            />
+            <MaterialIcon
+              style={{
+                padding: 20,
+              }}
+              size={30}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column-reverse" }}>
+          {!isAddingStore ? (
+            <MaterialIcon
+              style={{
+                borderRadius: 20,
+
+                padding: 20,
+                color: "#717171",
+                backgroundColor: "#ffffff",
+                shadowRadius: 20,
+                shadowOpacity: 0.7,
+                shadowColor: "#000",
+                shadowOffset: { width: 100, height: 100 },
+                elevation: 3,
+              }}
+              size={30}
+              name="add-business"
+              onPress={() => {
+                mapRef.current.animateToRegion({
+                  latitude: lag,
+                  longitude: log,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                });
+                setIsPinShowable(true);
+                setIsAddingStore(true);
+                // setPin(null);
+              }}
+            />
+          ) : (
+            <>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 20,
+
+                  paddingHorizontal: 20,
+
+                  paddingTop: 22,
+                  paddingBottom: 18,
+                  marginTop: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#ffffff",
+                  shadowRadius: 20,
+                  shadowOpacity: 0.7,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 100, height: 100 },
+                  elevation: 3,
+                }}
+                onPress={() => {
+                  setIsPinShowable(false);
+                  setIsAddingStore(false);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    height: 30,
+                    width: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#717171",
+                    fontWeight: "bold",
+                  }}
+                >
+                  취소
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 20,
+                  paddingHorizontal: 20,
+
+                  paddingTop: 22,
+                  paddingBottom: 18,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#717171",
+                  backgroundColor: "#ffffff",
+                  shadowRadius: 20,
+                  shadowOpacity: 0.7,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 100, height: 100 },
+                  elevation: 3,
+                }}
+                onPress={() => {
+                  if (pin == null) {
+                    pinIsNotSelectedAlert();
+                  } else {
+                    checkCreateStoreAlert();
+                  }
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#717171",
+                    fontSize: 16,
+                    height: 30,
+                    width: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  등록
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
       </View>
-      {isAddingStore && (
+      {/* {isAddingStore && (
         <View
           style={{
             position: "absolute", //use absolute position to show button on top of the map
-            top: "76.5%", //for center align
-            right: "30%",
+            top: "85%", //for center align
+            right: "50%",
             alignSelf: "flex-end", //for align to right
-            flexDirection: "column",
+            flexDirection: "column-reverse",
           }}
         >
           <TouchableOpacity
@@ -573,7 +707,7 @@ const GoogleMap = ({ navigation }) => {
             }}
           />
         </View>
-      )}
+      )} */}
       <View style={{}}>
         <View style={[styles.cardContainer, { zIndex: 999 }]}>
           {detailVisible && (
@@ -844,7 +978,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     borderRadius: 10,
-
+    backgroundColor: "#ff671b",
     shadowRadius: 10,
     shadowOpacity: 0.7,
     shadowColor: "#000",
