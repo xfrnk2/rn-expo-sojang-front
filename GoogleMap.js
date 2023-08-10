@@ -33,6 +33,7 @@ import {
   NAVER_CLIENT_SECRET,
   REVERSE_GEOCODING_URL,
 } from "@env";
+import { Picker } from "@react-native-picker/picker";
 const Stack = createStackNavigator();
 
 const { width, height } = Dimensions.get("window");
@@ -101,6 +102,7 @@ const GoogleMap = ({ navigation }) => {
   const [isAddingStore, setIsAddingStore] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [pinAddress, setPinAddress] = useState(["", "", ""]);
+  const [pickerCategory, setPickerCategory] = useState("판매지역");
   let storeId = 4;
 
   const showDetail = (event) => {
@@ -384,32 +386,67 @@ const GoogleMap = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <View style={styles.inputContainerTitle}>
+              <Text
+                style={{ textAlign: "left", fontSize: 20, fontWeight: "bold" }}
+              >
+                새로운 가게를 등록해요
+              </Text>
+            </View>
             <View style={styles.inputContainer}>
-              <Text style={styles.modalText}>가게 이름</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="이름을 입력하세요"
-                // onChangeText={goalInputHandler}
-                // value={enteredGoalText}
-              ></TextInput>
+              <Text style={styles.modalText}>이름</Text>
+              <View style={styles.textInputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="가게 이름을 입력 해 주세요"
+                  // onChangeText={goalInputHandler}
+                  // value={enteredGoalText}
+                ></TextInput>
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.modalText}>카테고리</Text>
+              <View style={styles.textInputBox}>
+                <Picker
+                  style={[styles.textInput, { zIndex: 999 }]}
+                  selectedValue={pickerCategory}
+                  onValueChange={(value, index) => {
+                    setPickerCategory(value);
+                  }}
+                >
+                  <Picker.Item label="편의점" value="convStore" />
+                  <Picker.Item label="카페" value="cafe" />
+                  <Picker.Item label="미용실" value="hairshop" />
+                  <Picker.Item label="한식 음식점" value="restaurant" />
+                  <Picker.Item label="양식 음식점" value="restaurant" />
+                  <Picker.Item label="중식 음식점" value="restaurant" />
+                  <Picker.Item label="동남아시아식 음식점" value="restaurant" />
+                  <Picker.Item label="기타 음식점" value="restaurant" />
+                </Picker>
+              </View>
             </View>
 
             <View style={styles.inputContainer}>
               <Text style={styles.modalText}>주소</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Your course goalas!"
-                // onChangeText={goalInputHandler}
-
-                // value={"테스트 중입니다."}
-                value={
-                  pinAddress[0] + " " + pinAddress[1] + " " + pinAddress[2]
-                }
-              ></TextInput>
+              <Text style={styles.textAddress}>
+                {pinAddress[0] + " " + pinAddress[1] + " " + pinAddress[2]}
+              </Text>
             </View>
+
             <View style={styles.modalFooter}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setModalIsVisible(!modalIsVisible);
+                  setIsAddingStore(false);
+                  setIsPinShowable(false);
+                }}
+              >
+                <Text style={styles.textStyle}>취소</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => {
                   setModalIsVisible(!modalIsVisible);
                   setIsAddingStore(false);
@@ -436,17 +473,7 @@ const GoogleMap = ({ navigation }) => {
                 }}
               >
                 <Text style={styles.textStyle}>등록</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  setModalIsVisible(!modalIsVisible);
-                  setIsAddingStore(false);
-                  setIsPinShowable(false);
-                }}
-              >
-                <Text style={styles.textStyle}>취소</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -454,35 +481,166 @@ const GoogleMap = ({ navigation }) => {
       <View
         style={{
           position: "absolute", //use absolute position to show button on top of the map
-          top: "85%", //for center align
+          top: "75%", //for center align
           right: "10%",
           alignSelf: "flex-end", //for align to right
-          borderRadius: 20,
-          borderWidth: 1,
-          padding: 20,
+
+          flexDirection: "row-reverse",
         }}
       >
-        <MaterialIcon
-          size={30}
-          name="my-location"
-          onPress={() => {
-            mapRef.current.animateToRegion({
-              latitude: lag,
-              longitude: log,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            });
-          }}
-        />
+        <View style={{ marginLeft: 5 }}>
+          <View style={{ flexDirection: "column-reverse" }}>
+            <MaterialIcon
+              style={{
+                borderRadius: 20,
+
+                padding: 20,
+                color: "#717171",
+                backgroundColor: "#ffffff",
+                shadowRadius: 20,
+                shadowOpacity: 0.7,
+                shadowColor: "#000",
+                shadowOffset: { width: 100, height: 100 },
+                elevation: 3,
+              }}
+              size={30}
+              name="my-location"
+              onPress={() => {
+                mapRef.current.animateToRegion({
+                  latitude: lag,
+                  longitude: log,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                });
+              }}
+            />
+            <MaterialIcon
+              style={{
+                padding: 20,
+              }}
+              size={30}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column-reverse" }}>
+          {!isAddingStore ? (
+            <MaterialIcon
+              style={{
+                borderRadius: 20,
+
+                padding: 20,
+                color: "#717171",
+                backgroundColor: "#ffffff",
+                shadowRadius: 20,
+                shadowOpacity: 0.7,
+                shadowColor: "#000",
+                shadowOffset: { width: 100, height: 100 },
+                elevation: 3,
+              }}
+              size={30}
+              name="add-business"
+              onPress={() => {
+                mapRef.current.animateToRegion({
+                  latitude: lag,
+                  longitude: log,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                });
+                setIsPinShowable(true);
+                setIsAddingStore(true);
+                // setPin(null);
+              }}
+            />
+          ) : (
+            <>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 20,
+
+                  paddingHorizontal: 20,
+
+                  paddingTop: 22,
+                  paddingBottom: 18,
+                  marginTop: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#ffffff",
+                  shadowRadius: 20,
+                  shadowOpacity: 0.7,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 100, height: 100 },
+                  elevation: 3,
+                }}
+                onPress={() => {
+                  setIsPinShowable(false);
+                  setIsAddingStore(false);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 16,
+                    height: 30,
+                    width: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#717171",
+                    fontWeight: "bold",
+                  }}
+                >
+                  취소
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 20,
+                  paddingHorizontal: 20,
+
+                  paddingTop: 22,
+                  paddingBottom: 18,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#717171",
+                  backgroundColor: "#ffffff",
+                  shadowRadius: 20,
+                  shadowOpacity: 0.7,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 100, height: 100 },
+                  elevation: 3,
+                }}
+                onPress={() => {
+                  if (pin == null) {
+                    pinIsNotSelectedAlert();
+                  } else {
+                    checkCreateStoreAlert();
+                  }
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#717171",
+                    fontSize: 16,
+                    height: 30,
+                    width: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  등록
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
       </View>
-      {isAddingStore && (
+      {/* {isAddingStore && (
         <View
           style={{
             position: "absolute", //use absolute position to show button on top of the map
-            top: "76.5%", //for center align
-            right: "30%",
+            top: "85%", //for center align
+            right: "50%",
             alignSelf: "flex-end", //for align to right
-            flexDirection: "column",
+            flexDirection: "column-reverse",
           }}
         >
           <TouchableOpacity
@@ -549,7 +707,7 @@ const GoogleMap = ({ navigation }) => {
             }}
           />
         </View>
-      )}
+      )} */}
       <View style={{}}>
         <View style={[styles.cardContainer, { zIndex: 999 }]}>
           {detailVisible && (
@@ -681,12 +839,12 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: "90%",
     alignSelf: "center",
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 10,
     shadowColor: "#ccc",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
-    shadowRadius: 5,
+    shadowRadius: 10,
     elevation: 10,
     top: 70,
     left: 15,
@@ -730,13 +888,10 @@ const styles = StyleSheet.create({
 
     elevation: 5,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
+    borderRadius: 10,
     marginHorizontal: 10,
     marginBottom: 10,
-    shadowRadius: 5,
+    shadowRadius: 10,
     shadowOpacity: 0.7,
     shadowColor: "#000",
     // shadowOffset: { x: 2, y: -2 },
@@ -792,15 +947,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 100, height: 100 },
+
+    shadowRadius: 3,
+    shadowOpacity: 0.7,
   },
   modalView: {
     width: "94%",
     height: 400,
-    margin: 20,
-
+    margin: 5,
+    borderRadius: 3,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    shadowRadius: 3,
+    shadowOpacity: 0.7,
+    shadowColor: "#000",
+    shadowOffset: { width: 100, height: 100 },
+    padding: 15,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -808,12 +972,17 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 10,
     elevation: 5,
   },
   button: {
     flex: 1,
-    borderRadius: 20,
+    borderRadius: 10,
+    backgroundColor: "#ff671b",
+    shadowRadius: 10,
+    shadowOpacity: 0.7,
+    shadowColor: "#000",
+    shadowOffset: { width: 100, height: 100 },
     margin: 10,
     paddingHorizontal: 10,
     elevation: 2,
@@ -848,19 +1017,51 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     marginBottom: 24,
     width: "100%",
-    borderBottomWidth: 1,
-    borderBotomColor: "#cccccc",
+    // borderBottomWidth: 1,
+    // borderBotomColor: "#cccccc",
     padding: 16,
   },
+  inputContainerTitle: {
+    flex: 1,
+    // flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
+    width: "100%",
+    // borderBottomWidth: 1,
+    // borderBotomColor: "#cccccc",
+    padding: 5,
+  },
+  textInputBox: {
+    borderBottomWidth: 1,
+  },
   textInput: {
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: "#cccccc",
+    // backgroundColor: "#cccccc",
+    // borderRadius: 10,
+    width: "100%",
+    padding: 8,
+    height: 50,
+    paddingLeft: 16,
+    fontSize: 15,
+  },
+  textAddress: {
+    width: "100%",
+    padding: 8,
+    height: 50,
+    fontSize: 15,
+    paddingLeft: 16,
+  },
+  picker: {
+    // borderWidth: 1,
+    // borderColor: "#cccccc",
+    borderRadius: 10,
     width: "100%",
     padding: 8,
     height: 50,
   },
   modalFooter: {
     flexDirection: "row",
-    flex: 1,
+    flex: 2,
   },
 });
