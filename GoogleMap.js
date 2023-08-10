@@ -13,6 +13,7 @@ import {
   TextInput,
   Modal,
   Pressable,
+  Switch,
 } from "react-native";
 import ModalTest from "./components/ModalTest";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -102,9 +103,12 @@ const GoogleMap = ({ navigation }) => {
   const [isAddingStore, setIsAddingStore] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [pinAddress, setPinAddress] = useState(["", "", ""]);
-  const [pickerCategory, setPickerCategory] = useState("all");
+  const [pickerCategory, setPickerCategory] = useState("");
   const [isPickerShowDefault, setIsPickerShowDefault] = useState(true);
   const [checkModalIsVisible, setCheckModalIsVisible] = useState(false);
+  const [isCouponEnabled, setIsCouponEnabled] = useState(false);
+  const toggleSwitch = () =>
+    setIsCouponEnabled((previousState) => !previousState);
 
   let storeId = 4;
 
@@ -205,7 +209,7 @@ const GoogleMap = ({ navigation }) => {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-
+      console.log("useeffect실행");
       let currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
       setPin([
@@ -245,6 +249,7 @@ const GoogleMap = ({ navigation }) => {
   if (errorMsg) {
     console.log(errorMsg);
   } else if (location) {
+    console.log(5151);
     console.log(location.coords.latitude);
     console.log(location.coords.longitude);
     lag = location.coords.latitude;
@@ -256,13 +261,14 @@ const GoogleMap = ({ navigation }) => {
       {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
 
       <View style={styles.screenHeader}>
+        <Text>　　</Text>
+        <Text>　소장가치 지도</Text>
+
         <CloseButton
           onPress={() => {
             navigation.goBack();
           }}
         />
-        <Text>　　소장가치 지도</Text>
-        <Text>　　　</Text>
       </View>
       <View style={styles.searchBox}>
         <Picker
@@ -279,10 +285,10 @@ const GoogleMap = ({ navigation }) => {
             setPickerCategory(value);
           }}
         >
-          {!pickerCategory && (
-            <Picker.Item label="매장을 선택해 주세요" value="" />
-          )}
-          <Picker.Item label="전체" value="all" />
+          <Picker.Item
+            label={!pickerCategory ? "매장을 선택해 주세요" : "전체"}
+            value="all"
+          />
           <Picker.Item label="편의점" value="convStore" />
           <Picker.Item label="카페" value="cafe" />
           <Picker.Item label="미용실" value="hairshop" />
@@ -314,6 +320,61 @@ const GoogleMap = ({ navigation }) => {
               borderRadius: 55,
             }}
           />
+        </View>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: (Platform.OS === "ios" ? 90 : 80) + 70,
+          paddingHorizontal: 10,
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          zIndex: 999,
+          left: 15,
+          right: "5%",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 40,
+            paddingHorizontal: 10,
+            paddingVertical: 0,
+            shadowColor: "#ccc",
+            shadowOffset: { width: 40, height: 40 },
+            shadowOpacity: 0.5,
+            shadowRadius: 40,
+            elevation: 10,
+            flexDirection: "row",
+            justifyContent: "center",
+
+            textAlign: "center",
+          }}
+        >
+          <Switch
+            trackColor={{ false: "#767577", true: "#ff671b" }}
+            thumbColor={isCouponEnabled ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isCouponEnabled}
+          />
+          <View
+            style={{
+              justifyContent: "center",
+              textAlign: "center",
+              paddingBottom: 1,
+            }}
+          >
+            <Text
+              style={{
+                color: "#ff671b",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              쿠폰
+            </Text>
+          </View>
         </View>
       </View>
       {lag !== 0 && log !== 0 && (
@@ -1001,13 +1062,13 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: "90%",
     alignSelf: "center",
-    borderRadius: 10,
+    borderRadius: 40,
     paddingHorizontal: 10,
     paddingVertical: 0,
     shadowColor: "#ccc",
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: { width: 40, height: 40 },
     shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowRadius: 40,
     elevation: 10,
     top: 70,
     left: 15,
