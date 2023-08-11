@@ -1,9 +1,9 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 function Certification(props) {
   return (
-    <TouchableOpacity
+    <View
       //   onPress={props.onPress}
       style={[
         styles.certification,
@@ -13,7 +13,7 @@ function Certification(props) {
       <Text style={{ fontWeight: "bold", fontSize: 15, color: "#ff671b" }}>
         {props.title}
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 

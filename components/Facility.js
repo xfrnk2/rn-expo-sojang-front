@@ -1,16 +1,22 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 function Facility(props) {
   return (
-    <TouchableOpacity
+    <View
       //   onPress={props.onPress}
       style={[styles.facility, { backgroundColor: "#ccc" }]}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 14, color: "black" }}>
+      <Text
+        style={{
+          fontWeight: "bold",
+          fontSize: 15,
+          color: "black",
+        }}
+      >
         {props.title}
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -21,15 +27,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 20,
-    paddingHorizontal: 6,
-    paddingTop: 7,
-    paddingBottom: 5,
+    paddingHorizontal: 10,
+    paddingTop: 6,
+    // paddongBottom: 14,
+    marginRight: 6,
 
     // paddingHorizontal: 20,
     // marginHorizontal: 10,
     justifyContent: "center",
     textAlign: "center",
-    height: 40,
+    height: 34,
     shadowColor: "#ccc",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,

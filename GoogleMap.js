@@ -262,7 +262,9 @@ const GoogleMap = ({ navigation }) => {
 
       <View style={styles.screenHeader}>
         <Text>　　</Text>
-        <Text>　소장가치 지도</Text>
+        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+          　소장가치 지도
+        </Text>
 
         <CloseButton
           onPress={() => {
@@ -331,7 +333,8 @@ const GoogleMap = ({ navigation }) => {
           alignItems: "flex-end",
           zIndex: 999,
           left: 15,
-          right: "5%",
+          right: 0,
+          width: "90%",
         }}
       >
         <View
@@ -349,6 +352,7 @@ const GoogleMap = ({ navigation }) => {
             justifyContent: "center",
 
             textAlign: "center",
+            marginRight: "-3%",
           }}
         >
           <Switch

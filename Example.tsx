@@ -12,7 +12,9 @@ import FilledHeart from "./components/FilledHeart";
 import UnfilledHeart from "./components/UnfilledHeart";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Coupon from "./Coupon";
-const HEADER_HEIGHT = 300;
+import Facility from "./components/Facility";
+import Certification from "./components/Certification";
+const HEADER_HEIGHT = 340;
 
 const DATA = [0, 1, 2, 3, 4];
 const identity = (v: unknown): string => v + "";
@@ -26,12 +28,15 @@ const Header = ({ navigation, data }) => {
             style={{
               justifyContent: "space-between",
               flexDirection: "row",
+              alignItems: "flex-end",
             }}
           >
-            <Text>이름</Text>
-            <Text>{data.isCert && "인증된 가게에요"}</Text>
+            <Text style={styles.textTitle}>이름</Text>
+            <Text>
+              {data.isCert && <Certification title={"인증된 가게에요"} />}
+            </Text>
           </View>
-          <Text>{data.name}</Text>
+          <Text style={styles.textContent}>{data.name}</Text>
         </View>
         <View style={styles.boxcontent}>
           <View
@@ -40,26 +45,39 @@ const Header = ({ navigation, data }) => {
               flexDirection: "row",
             }}
           >
-            <Text>주소</Text>
+            <Text
+              style={[
+                styles.textTitle,
+                { alignItems: "flex-end", justifyContent: "flex-end" },
+              ]}
+            >
+              주소
+            </Text>
           </View>
-          <Text>{data.address}</Text>
+          <Text style={styles.textContent}>{data.address}</Text>
         </View>
         <View style={styles.boxcontent}>
           <View>
-            <Text>시설</Text>
+            <Text style={styles.textTitle}>시설</Text>
           </View>
-          <Text>
-            {data.hasParkingLot && "전용주차장 "}
-            {data.hasElevator && "엘리베이터 "}
-            {data.hasToilet && "전용화장실"}
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            {data.hasParkingLot && <Facility title={"우선주차장"} />}
+            {data.hasElevator && <Facility title={"엘리베이터"} />}
+            {data.hasToilet && <Facility title={"장애인용 화장실"} />}
+          </View>
         </View>
         <View style={styles.boxcontent}>
           <View>
-            <Text>그 외</Text>
+            <Text style={styles.textTitle}>그 외</Text>
           </View>
-          <Text>.</Text>
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <Text style={styles.textContent}>.</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              marginBottom: 100,
+            }}
+          >
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
@@ -172,7 +190,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 0.1,
-
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -186,6 +203,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#D8D8D8",
     borderRadius: 30,
     padding: 10,
+  },
+  textTitle: {
+    color: "#ac7448",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  textContent: {
+    fontSize: 14,
   },
 });
 

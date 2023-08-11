@@ -93,60 +93,6 @@ const MapDetail = ({ navigation, route }) => {
           <Text>커뮤니티 문의</Text>
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.inputContainer}>
-        <Text>Comment</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Your course goalas!"
-          onChangeText={() => {}}
-          value={"text"}
-        ></TextInput>
-      </View> */}
-
-      {/* <ScrollView style={styles.visitLog}>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>123</Text>
-        <Text>12344</Text>
-      </ScrollView> */}
-      {/* <View style={styles.detailContainer}>
-        <Text>{curStore.name}</Text>
-        <Text>{curStore.address}</Text>
-      </View> */}
-      {/* <View style={styles.imageContainer}>
-        <Text>Image</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text>detail</Text>
-      </View>
-      {/* <Text>Detail Content, {route.params.info},</Text> */}
-      {/* <Button
-        title="go to the list screen"
-        onPress={() => navigation.navigate("MapDetail")}
-      /> */}
     </View>
   );
 };
