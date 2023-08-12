@@ -86,11 +86,11 @@ const MapDetail = ({ navigation, route }) => {
       <View style={styles.footer}>
         <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
         <TouchableOpacity style={styles.button}>
-          <Text>방명록 남기기</Text>
+          <Text style={styles.buttonText}>방명록 남기기</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
-          <Text>커뮤니티 문의</Text>
+          <Text style={styles.buttonText}>커뮤니티 문의</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -157,9 +157,15 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   button: {
-    borderWidth: 2,
-    backgroundColor: "#D8D8D8",
-    borderRadius: 30,
-    padding: 10,
+    // borderWidth: 2,
+    // backgroundColor: "#F2E4C5",
+    backgroundColor: "#e8e8e8",
+    borderRadius: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 500,
   },
 });

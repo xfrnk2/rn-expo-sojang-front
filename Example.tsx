@@ -71,27 +71,38 @@ const Header = ({ navigation, data }) => {
             <Text style={styles.textTitle}>그 외</Text>
           </View>
           <Text style={styles.textContent}>.</Text>
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "flex-end",
               marginBottom: 100,
             }}
+          > */}
+          {/* <TouchableOpacity
+            style={styles.questionIsOwner}
+            onPress={() => {
+              navigation.navigate("EditDetailScreen", {
+                data: data,
+                navigation: navigation,
+              });
+            }}
           >
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.navigate("EditDetailScreen", {
-                  data: data,
-                  navigation: navigation,
-                });
-              }}
-            >
-              <Text>이 가게의 주인이신가요?</Text>
-            </TouchableOpacity>
-          </View>
+            <Text>이 가게의 주인이신가요?</Text>
+          </TouchableOpacity> */}
+          {/* </View> */}
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.questionIsOwner}
+        onPress={() => {
+          navigation.navigate("EditDetailScreen", {
+            data: data,
+            navigation: navigation,
+          });
+        }}
+      >
+        <Text>이 가게의 주인이신가요?</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -168,7 +179,9 @@ const styles = StyleSheet.create({
     height: HEADER_HEIGHT,
     width: "100%",
     // backgroundColor: "#2196f3",
-    backgroundColor: "#D8D8D8",
+    // backgroundColor: "#D8D8D8",
+    backgroundColor: "white",
+    justifyContent: "space-between",
   },
 
   boxcontent: { paddingVertical: 10 },
@@ -212,6 +225,15 @@ const styles = StyleSheet.create({
   },
   textContent: {
     fontSize: 14,
+  },
+  questionIsOwner: {
+    padding: 12,
+    flexDirection: "row",
+    backgroundColor: "#F2E4C5",
+    // backgroundColor: "grey",
+    // marginBottom: 100,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
