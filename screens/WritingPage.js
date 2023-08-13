@@ -10,49 +10,53 @@ import {
   TextInput,
 } from "react-native";
 import BackspaceButton from "../components/BackspaceButton";
+import CloseButton from "../components/CloseButton";
 const WritingPage = ({ navigation, route }) => {
   const [text, setText] = useState("");
 
   return (
     <View style={styles.container}>
-      <View style={styles.detailHeader}>
-        <View style={{ flexDirection: "row" }}>
-          <BackspaceButton
-            onPress={() => {
-              // setDetailVisible(false);
-              navigation.goBack();
-            }}
-            color="black"
-          />
+      <View
+        style={{
+          height: 60,
+          backgroundColor: "#fff",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
 
-          <Text
-            style={{
-              marginLeft: 10,
-              marginTop: 14,
-              fontSize: 18,
-              fontWeight: "bold",
-            }}
-          >
-            방명록 작성
-          </Text>
+          paddingHorizontal: 20,
+        }}
+      >
+        <CloseButton
+          onPress={() => {
+            // setDetailVisible(false);
+            navigation.goBack();
+          }}
+          color="black"
+        />
+
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ fontSize: 17, fontWeight: 400 }}>완료 </Text>
         </View>
       </View>
+
       <View style={{ alignItems: "center" }}>
         <View
           style={{
             width: "90%",
-            height: 200,
-            margin: 10,
-            padding: 10,
+            height: 360,
+            marginHorizontal: 10,
+            // padding: 10,
             borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 10,
-            shadowRadius: 10,
-            elevation: 3,
-            shadowColor: "#ccc",
-            shadowOpacity: 0.7,
-            shadowOffset: { x: 100, y: 100 },
-            backgroundColor: "white",
+            borderColor: "#f4f4f4",
+            borderRadius: 3,
+            // shadowRadius: 3,
+            // elevation: 3,
+            // shadowColor: "#ccc",
+            // shadowOpacity: 0.7,
+            // shadowOffset: { x: 100, y: 100 },
+            backgroundColor: "#fafafa",
+            paddingLeft: 10,
           }}
         >
           <TextInput
@@ -63,11 +67,11 @@ const WritingPage = ({ navigation, route }) => {
               console.log(text);
             }}
             value={text}
-            placeholder={"20자 이내로 입력해 주세요."}
+            placeholder={"방명록을 입력하세요"}
           />
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           flowDirection: "row",
           justifyContent: "flex-end",
@@ -78,13 +82,13 @@ const WritingPage = ({ navigation, route }) => {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>등록</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: "white" },
 
   button: {
     // borderWidth: 2,

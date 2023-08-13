@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     // // shadowOffset: { x: 2, y: -2 },
     // shadowOffset: { width: 10, height: 10 },
     opacity: 0.75,
-    backgroundColor: "transparent",
   },
 });
 export default CloseButton;
