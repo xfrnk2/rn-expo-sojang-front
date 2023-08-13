@@ -26,11 +26,12 @@ const styles = StyleSheet.create({
     height: BUTTON_SIZE + BORDER_WIDTH,
     // borderWidth: BORDER_WIDTH,
     borderRadius: BUTTON_SIZE / 2,
-    shadowRadius: BUTTON_SIZE / 2,
-    shadowOpacity: 0.9,
-    shadowColor: "#000",
-    // shadowOffset: { x: 2, y: -2 },
-    shadowOffset: { width: 10, height: 10 },
+    // shadowRadius: BUTTON_SIZE / 2,
+    // shadowOpacity: 0.9,
+    // shadowColor: "#000",
+    // // shadowOffset: { x: 2, y: -2 },
+    // shadowOffset: { width: 10, height: 10 },
+    opacity: 0.75,
   },
 });
 export default CloseButton;

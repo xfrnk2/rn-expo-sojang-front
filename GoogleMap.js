@@ -13,6 +13,7 @@ import {
   TextInput,
   Modal,
   Pressable,
+  Switch,
 } from "react-native";
 import ModalTest from "./components/ModalTest";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -102,7 +103,13 @@ const GoogleMap = ({ navigation }) => {
   const [isAddingStore, setIsAddingStore] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [pinAddress, setPinAddress] = useState(["", "", ""]);
-  const [pickerCategory, setPickerCategory] = useState("판매지역");
+  const [pickerCategory, setPickerCategory] = useState("");
+  const [isPickerShowDefault, setIsPickerShowDefault] = useState(true);
+  const [checkModalIsVisible, setCheckModalIsVisible] = useState(false);
+  const [isCouponEnabled, setIsCouponEnabled] = useState(false);
+  const toggleSwitch = () =>
+    setIsCouponEnabled((previousState) => !previousState);
+
   let storeId = 4;
 
   const showDetail = (event) => {
@@ -128,6 +135,39 @@ const GoogleMap = ({ navigation }) => {
       ]
     );
 
+  const createStoreInfo = async () => {
+    console.log("가게정보 생성 등록 버튼 눌림");
+
+    await setCurrentLocation()
+      .then((data) => {
+        setPinAddress([
+          data.data.results[0].region.area1.name,
+          data.data.results[0].region.area2.name,
+          data.data.results[0].region.area3.name,
+        ]);
+      })
+      .then(() => {
+        setModalIsVisible(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const setCurrentLocation = async () =>
+    await axios.get(REVERSE_GEOCODING_URL, {
+      params: {
+        targetcrs: "epsg:3857",
+        orders: "legalcode",
+        output: "json",
+        coords: `${pin[0].lon},${pin[0].lat}`,
+      },
+      headers: {
+        "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
+        "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
+      },
+    });
+
   const checkCreateStoreAlert = () =>
     Alert.alert(
       "가게를 방문하셨나요?",
@@ -143,19 +183,7 @@ const GoogleMap = ({ navigation }) => {
           onPress: async () => {
             console.log("가게정보 생성 등록 버튼 눌림");
 
-            await axios
-              .get(REVERSE_GEOCODING_URL, {
-                params: {
-                  targetcrs: "epsg:3857",
-                  orders: "legalcode",
-                  output: "json",
-                  coords: `${pin[0].lon},${pin[0].lat}`,
-                },
-                headers: {
-                  "X-NCP-APIGW-API-KEY-ID": NAVER_CLIENT_ID,
-                  "X-NCP-APIGW-API-KEY": NAVER_CLIENT_SECRET,
-                },
-              })
+            await setCurrentLocation()
               .then((data) => {
                 setPinAddress([
                   data.data.results[0].region.area1.name,
@@ -181,7 +209,7 @@ const GoogleMap = ({ navigation }) => {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-
+      console.log("useeffect실행");
       let currentLocation = await Location.getCurrentPositionAsync({});
       setLocation(currentLocation);
       setPin([
@@ -221,6 +249,7 @@ const GoogleMap = ({ navigation }) => {
   if (errorMsg) {
     console.log(errorMsg);
   } else if (location) {
+    console.log(5151);
     console.log(location.coords.latitude);
     console.log(location.coords.longitude);
     lag = location.coords.latitude;
@@ -232,8 +261,11 @@ const GoogleMap = ({ navigation }) => {
       {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
 
       <View style={styles.screenHeader}>
-        <Text>.</Text>
-        <Text>소장가치 지도</Text>
+        <Text>　　</Text>
+        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+          　소장가치 지도
+        </Text>
+
         <CloseButton
           onPress={() => {
             navigation.goBack();
@@ -241,13 +273,113 @@ const GoogleMap = ({ navigation }) => {
         />
       </View>
       <View style={styles.searchBox}>
-        <TextInput
+        <Picker
+          selectionColor={"orange"}
+          style={{
+            zIndex: 998,
+            flex: 1,
+            padding: 0,
+            fontSize: 16,
+            fontWeight: "bold",
+          }}
+          selectedValue={pickerCategory}
+          onValueChange={(value, index) => {
+            setPickerCategory(value);
+          }}
+        >
+          <Picker.Item
+            label={!pickerCategory ? "매장을 선택해 주세요" : "전체"}
+            value="all"
+          />
+          <Picker.Item label="편의점" value="convStore" />
+          <Picker.Item label="카페" value="cafe" />
+          <Picker.Item label="미용실" value="hairshop" />
+          <Picker.Item label="한식 음식점" value="korRes" />
+          <Picker.Item label="양식 음식점" value="wesRes" />
+          <Picker.Item label="중식 음식점" value="chiRes" />
+          <Picker.Item label="동남아시아식 음식점" value="wsaRes" />
+          <Picker.Item label="기타 음식점" value="etcRes" />
+        </Picker>
+        {/* <TextInput
           placeholder="Search here"
           placeholderTextColor="#000"
           autoCapitalize="none"
           style={{ flex: 1, padding: 0 }}
-        />
-        <Ionicons name="ios-search" size={20} />
+        /> */}
+        <View
+          style={{
+            position: "absolute",
+            right: "7.5%",
+            backgroundColor: "white",
+            zIndex: 999,
+            borderRadius: 55,
+          }}
+        >
+          <Ionicons
+            name="ios-search"
+            size={20}
+            style={{
+              borderRadius: 55,
+            }}
+          />
+        </View>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: (Platform.OS === "ios" ? 90 : 80) + 70,
+          paddingHorizontal: 10,
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          zIndex: 999,
+          left: 15,
+          right: 0,
+          width: "90%",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 40,
+            paddingHorizontal: 10,
+            paddingVertical: 0,
+            shadowColor: "#ccc",
+            shadowOffset: { width: 40, height: 40 },
+            shadowOpacity: 0.5,
+            shadowRadius: 40,
+            elevation: 10,
+            flexDirection: "row",
+            justifyContent: "center",
+
+            textAlign: "center",
+            marginRight: "-3%",
+          }}
+        >
+          <Switch
+            trackColor={{ false: "#767577", true: "#ff671b" }}
+            thumbColor={isCouponEnabled ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isCouponEnabled}
+          />
+          <View
+            style={{
+              justifyContent: "center",
+              textAlign: "center",
+              paddingBottom: 1,
+            }}
+          >
+            <Text
+              style={{
+                color: "#ff671b",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              쿠폰
+            </Text>
+          </View>
+        </View>
       </View>
       {lag !== 0 && log !== 0 && (
         <MapView
@@ -357,7 +489,9 @@ const GoogleMap = ({ navigation }) => {
                 }}
                 pinColor="#2D63E2"
                 title={"이 곳에 가게를 등록해요"}
-                onCalloutPress={checkCreateStoreAlert}
+                onCalloutPress={() => {
+                  setCheckModalIsVisible(true);
+                }}
                 // description={marker.nM}
                 anchor={{ x: 0.5, y: 1 }}
                 showsUserLocation
@@ -375,6 +509,98 @@ const GoogleMap = ({ navigation }) => {
             ))}
         </MapView>
       )}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={checkModalIsVisible}
+        onRequestClose={() => {
+          // Alert.alert("Modal has been closed.");
+          setCheckModalIsVisible(!checkModalIsVisible);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 22,
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            borderRadius: 3,
+            shadowColor: "#000",
+            shadowOffset: { width: 100, height: 100 },
+
+            shadowRadius: 3,
+            shadowOpacity: 0.7,
+            elevation: 5,
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <View
+            style={{
+              width: "94%",
+              height: 200,
+              padding: 5,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "white",
+              borderRadius: 3,
+              shadowRadius: 3,
+              shadowOpacity: 0.7,
+              shadowColor: "#000",
+              shadowOffset: { width: 100, height: 100 },
+              elevation: 5,
+            }}
+          >
+            <View
+              style={{
+                flex: 2,
+                // flexDirection: "column",
+                // justifyContent: "center",
+                // alignItems: "center",
+                marginBottom: 24,
+                width: "100%",
+                // borderBottomWidth: 1,
+                // borderBotomColor: "#cccccc",
+                padding: 16,
+              }}
+            >
+              <View style={{ marginBottom: 20 }}>
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                  가게를 방문하셨나요?
+                </Text>
+              </View>
+              <View>
+                <Text style={{ fontSize: 18 }}>
+                  주소는 자동으로 찾아드릴게요.
+                  {"\n"}
+                  이름과 카테고리를 입력해 주세요.
+                </Text>
+              </View>
+            </View>
+            <View style={styles.modalFooter}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setCheckModalIsVisible(false);
+                }}
+              >
+                <Text style={styles.textStyle}>취소</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setCheckModalIsVisible(false);
+                  setModalIsVisible(true);
+                  createStoreInfo();
+                }}
+              >
+                <Text style={styles.textStyle}>가게 등록</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Modal
         animationType="fade"
         transparent={true}
@@ -611,7 +837,8 @@ const GoogleMap = ({ navigation }) => {
                   if (pin == null) {
                     pinIsNotSelectedAlert();
                   } else {
-                    checkCreateStoreAlert();
+                    setCheckModalIsVisible(true);
+                    // checkCreateStoreAlert();
                   }
                 }}
               >
@@ -839,12 +1066,13 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: "90%",
     alignSelf: "center",
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 40,
+    paddingHorizontal: 10,
+    paddingVertical: 0,
     shadowColor: "#ccc",
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: { width: 40, height: 40 },
     shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowRadius: 40,
     elevation: 10,
     top: 70,
     left: 15,
@@ -966,13 +1194,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 100, height: 100 },
     padding: 15,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
     elevation: 5,
   },
   button: {

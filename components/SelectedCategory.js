@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-function Category(props) {
+function SelectedCategory(props) {
   return (
-    <TouchableOpacity style={[styles.categoryBase, styles.categoryNormal]}>
-      <Text style={styles.textBoxNormal}>{props.name}</Text>
+    <TouchableOpacity
+      onPress={() => {
+        console.log("category clicked");
+        // setIsSelected(!isSelected);
+      }}
+      style={[styles.categoryBase, styles.categoryClicked]}
+    >
+      <Text style={styles.textBoxClicked}>{props.name}</Text>
     </TouchableOpacity>
   );
 }
 
-export default Category;
+export default SelectedCategory;
 
 const styles = StyleSheet.create({
   categoryBase: {
@@ -27,13 +33,12 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderColor: "#F1F1F1",
   },
-  categoryNormal: {
-    // paddingHorizontal: 20,
-    // marginHorizontal: 10,
-    backgroundColor: "white",
+
+  categoryClicked: {
+    backgroundColor: "black",
   },
 
-  textBoxNormal: {
-    color: "black",
+  textBoxClicked: {
+    color: "white",
   },
 });

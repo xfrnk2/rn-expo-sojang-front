@@ -1,15 +1,34 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-function Category(props) {
+function FoodCategory(props) {
   return (
-    <TouchableOpacity style={[styles.categoryBase, styles.categoryNormal]}>
-      <Text style={styles.textBoxNormal}>{props.name}</Text>
+    <TouchableOpacity
+      onPress={() => {
+        console.log("category clicked");
+        props.onPress(props.name);
+      }}
+      style={[
+        styles.categoryBase,
+        props.value == props.name
+          ? styles.categoryClicked
+          : styles.categoryNormal,
+      ]}
+    >
+      <Text
+        style={
+          props.value == props.name
+            ? styles.textBoxClicked
+            : styles.textBoxNormal
+        }
+      >
+        {props.name}
+      </Text>
     </TouchableOpacity>
   );
 }
 
-export default Category;
+export default FoodCategory;
 
 const styles = StyleSheet.create({
   categoryBase: {
@@ -32,8 +51,13 @@ const styles = StyleSheet.create({
     // marginHorizontal: 10,
     backgroundColor: "white",
   },
-
+  categoryClicked: {
+    backgroundColor: "#e32f45",
+  },
   textBoxNormal: {
     color: "black",
+  },
+  textBoxClicked: {
+    color: "white",
   },
 });
