@@ -91,6 +91,12 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 justifyContent: "flex-start",
                 alignItems: "center",
                 marginBottom: 2,
+                paddingBottom: 4,
+                backgroundColor: "white",
+                shadowOpacity: 0.7,
+                shadowColor: "#000",
+                shadowOffset: { width: 100, height: 100 },
+                elevation: 3,
               }}
             >
               <FoodCategory
@@ -119,7 +125,7 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 value={curFoodCategory}
               ></FoodCategory>
             </View>
-            <Tabs.ScrollView style={{ paddingRight: 20, marginTop: 0 }}>
+            <Tabs.ScrollView style={{ paddingHorizontal: 10, marginTop: 0 }}>
               <View style={styles.favItem}>
                 <View style={styles.icon}>
                   <Image
@@ -667,7 +673,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#D8D8D8",
   },
   favContainer: {
-    padding: 10,
+    paddingVertical: 10,
     flex: 1,
     marginTop: 36,
   },
@@ -681,10 +687,10 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 10,
     borderColor: "#e8e8e8",
-    shadowColor: "#ccc",
-    shadowOffset: { width: "100%", height: "100%" },
+    shadowColor: "#666666",
+    shadowOffset: { width: 100, height: 100 },
     shadowOpacity: 0.8,
-    shadowRadius: 10,
+    backgroundColor: "white",
   },
   icon: {
     height: "75%",

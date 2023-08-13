@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import EditDetailScreen from "./screens/EditDetailScreen.js";
 import QRCodeScanner from "./QRCodeScanner";
 import ResultList from "./ResultList";
+import WritingPage from "./screens/WritingPage";
 const Stack = createStackNavigator();
 
 const MapStackNavigation = () => {
@@ -41,6 +42,11 @@ const MapStackNavigation = () => {
         <Stack.Screen
           name="ResultList"
           component={ResultList}
+          options={({ route }) => ({})}
+        />
+        <Stack.Screen
+          name="WritingPage"
+          component={WritingPage}
           options={({ route }) => ({})}
         />
       </Stack.Navigator>

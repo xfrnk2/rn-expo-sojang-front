@@ -85,7 +85,15 @@ const MapDetail = ({ navigation, route }) => {
       </View>
       <View style={styles.footer}>
         <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("WritingPage", {
+              // data: data,
+              // navigation: navigation,
+            });
+          }}
+        >
           <Text style={styles.buttonText}>방명록 남기기</Text>
         </TouchableOpacity>
 

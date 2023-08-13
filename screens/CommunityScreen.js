@@ -98,6 +98,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     pading: 5,
     alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    borderColor: "#e8e8e8",
+    shadowColor: "#ccc",
+    shadowOffset: { width: "100%", height: "100%" },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
   },
   favItem: {
     height: 150,
