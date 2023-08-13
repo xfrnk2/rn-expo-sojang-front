@@ -30,7 +30,15 @@ const CommunityScreen = ({ navigation, data, update }) => {
           <Category name={"미용실"}></Category>
         </View>
         <View style={{ paddingRight: 20, marginTop: 0 }}>
-          <View style={styles.favItemBox}>
+          <TouchableOpacity
+            style={styles.favItemBox}
+            onPress={() => {
+              navigation.navigate("CommunityDetail", {
+                // data: data,
+                // navigation: navigation,
+              });
+            }}
+          >
             <View style={styles.favItem}>
               <View style={styles.icon}>
                 <Image
@@ -73,7 +81,7 @@ const CommunityScreen = ({ navigation, data, update }) => {
               <Text style={styles.itemFooter}>작성자</Text>
               <Text style={styles.itemFooter}>얼마 전</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -98,6 +106,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     pading: 5,
     alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    borderColor: "#e8e8e8",
+    shadowColor: "#ccc",
+    shadowOffset: { width: "100%", height: "100%" },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
   },
   favItem: {
     height: 150,

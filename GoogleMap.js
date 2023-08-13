@@ -261,16 +261,16 @@ const GoogleMap = ({ navigation }) => {
       {/* <ModalTest visible={detailVisible} unShowDetail={unShowDetail} /> */}
 
       <View style={styles.screenHeader}>
-        <Text>　　</Text>
-        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-          　소장가치 지도
-        </Text>
-
         <CloseButton
           onPress={() => {
             navigation.goBack();
           }}
         />
+
+        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+          소장가치 지도　　　
+        </Text>
+        <Text>　</Text>
       </View>
       <View style={styles.searchBox}>
         <Picker

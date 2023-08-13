@@ -10,20 +10,20 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import Example from "./Example";
-import BackspaceButton from "./components/BackspaceButton";
-import Category from "./components/Category";
-import FilledHeart from "./components/FilledHeart";
-import UnfilledHeart from "./components/UnfilledHeart";
+
+import BackspaceButton from "../components/BackspaceButton";
+import Category from "../components/Category";
+import FilledHeart from "../components/FilledHeart";
+import UnfilledHeart from "../components/UnfilledHeart";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { ToggleIcon } from "./ToggleIcon";
-const MapDetail = ({ navigation, route }) => {
+import { ToggleIcon } from "../ToggleIcon";
+const CommunityDetail = ({ navigation, route }) => {
   // const update = route.params.update;
-  const [curStore, setCurStore] = useState(route.params.data);
+  //   const [curStore, setCurStore] = useState(route.params.data);
   useEffect(() => {
-    navigation.setOptions({
-      title: route.params.title,
-    });
+    // navigation.setOptions({
+    //   title: route.params.title,
+    // });
   }, []);
 
   return (
@@ -37,18 +37,6 @@ const MapDetail = ({ navigation, route }) => {
             }}
             color="black"
           />
-          <Image
-            source={require("./assets/no-image.png")}
-            style={{
-              width: 40,
-              height: 40,
-              marginLeft: -5,
-              marginTop: 10,
-              borderRadius: 3,
-              borderWidth: 2,
-              borderColor: "grey",
-            }}
-          />
 
           <Text
             style={{
@@ -58,10 +46,10 @@ const MapDetail = ({ navigation, route }) => {
               fontWeight: "bold",
             }}
           >
-            {curStore.name} {curStore.isCert && "☆"}
+            {/* {curStore.name} {curStore.isCert && "☆"} */}
           </Text>
         </View>
-        <Category name={curStore.maCat} />
+        {/* <Category name={curStore.maCat} /> */}
 
         {/* <CloseButton onPress={() => {}} color="black" /> */}
 
@@ -76,12 +64,37 @@ const MapDetail = ({ navigation, route }) => {
                   resizeMode="cover"
                 /> */}
       </View>
-      <View style={styles.detailContainer}>
-        <Example
-          navigation={navigation}
-          data={curStore}
-          update={setCurStore}
-        ></Example>
+      <View style={styles.favItemBox}>
+        <View style={styles.favItem}>
+          <View style={styles.icon}>
+            <Image
+              source={require("../assets/no-image.png")}
+              style={{
+                height: "100%",
+                width: "100%",
+                borderRadius: 3,
+                borderWidth: 2,
+                borderColor: "grey",
+              }}
+            />
+          </View>
+          <View style={styles.favItemContent}>
+            <View style={styles.contentHeader}>
+              <View style={{ flexDirection: "row" }}>
+                <Category name={"음식"}></Category>
+                <Category name={"양식"}></Category>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Category name={"인증O"}></Category>
+                <Category name={"쿠폰O"}></Category>
+              </View>
+            </View>
+            <View style={styles.detail}>
+              <Text>☆ 레드스모크하우스</Text>
+              <Text>주소: 경기도 김포시 장기동 1902-1</Text>
+            </View>
+          </View>
+        </View>
       </View>
       <View style={styles.footer}>
         <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
@@ -94,18 +107,18 @@ const MapDetail = ({ navigation, route }) => {
             });
           }}
         >
-          <Text style={styles.buttonText}>방명록 남기기</Text>
+          <Text style={styles.buttonText}>댓글 남기기</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>커뮤니티 문의</Text>
+          <Text style={styles.buttonText}>공감하기</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default MapDetail;
+export default CommunityDetail;
 
 const styles = StyleSheet.create({
   pageContainer: { flex: 1, backgroundColor: "#fff" },
@@ -175,5 +188,29 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 500,
+  },
+  favItemBox: {
+    borderWidth: 1,
+    pading: 5,
+    alignItems: "center",
+    marginVertical: 5,
+    borderRadius: 10,
+    borderColor: "#e8e8e8",
+    shadowColor: "#ccc",
+    shadowOffset: { width: "100%", height: "100%" },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+  },
+  favItem: {
+    height: 150,
+    borderWidth: 1,
+
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  icon: {
+    height: "75%",
+    width: "30%",
   },
 });

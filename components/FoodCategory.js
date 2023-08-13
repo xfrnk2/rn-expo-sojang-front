@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
   categoryNormal: {
     // paddingHorizontal: 20,
     // marginHorizontal: 10,
-    backgroundColor: "white",
+    backgroundColor: "#e9e9e9",
   },
   categoryClicked: {
-    backgroundColor: "#e32f45",
+    backgroundColor: "black",
   },
   textBoxNormal: {
-    color: "black",
+    color: "#c7c7c7",
   },
   textBoxClicked: {
     color: "white",
