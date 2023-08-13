@@ -35,7 +35,7 @@
 //   },
 // });
 
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -46,9 +46,15 @@ import {
 } from "react-native";
 import { MaterialTabBar, Tabs } from "react-native-collapsible-tab-view";
 import Category from "../components/Category";
+import SelectedCategory from "../components/SelectedCategory";
+import FoodCategory from "../components/FoodCategory";
 import Icon from "react-native-vector-icons/AntDesign";
 
 const FavoriteScreen = ({ navigation, data, update }) => {
+  const [curFoodCategory, setCurFoodCategory] = useState(null);
+  const changeCurFoodCategory = (value) => {
+    setCurFoodCategory(value);
+  };
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -87,11 +93,31 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 marginBottom: 2,
               }}
             >
-              <Category name={"전체"}></Category>
-              <Category name={"한식"}></Category>
-              <Category name={"양식"}></Category>
-              <Category name={"중식"}></Category>
-              <Category name={"동남아시아식"}></Category>
+              <FoodCategory
+                name={"전체"}
+                onPress={setCurFoodCategory}
+                value={curFoodCategory}
+              ></FoodCategory>
+              <FoodCategory
+                name={"한식"}
+                onPress={setCurFoodCategory}
+                value={curFoodCategory}
+              ></FoodCategory>
+              <FoodCategory
+                name={"양식"}
+                onPress={setCurFoodCategory}
+                value={curFoodCategory}
+              ></FoodCategory>
+              <FoodCategory
+                name={"중식"}
+                onPress={setCurFoodCategory}
+                value={curFoodCategory}
+              ></FoodCategory>
+              <FoodCategory
+                name={"동남아시아식"}
+                onPress={setCurFoodCategory}
+                value={curFoodCategory}
+              ></FoodCategory>
             </View>
             <Tabs.ScrollView style={{ paddingRight: 20, marginTop: 0 }}>
               <View style={styles.favItem}>
@@ -110,8 +136,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -140,8 +166,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -170,8 +196,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -200,8 +226,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -246,8 +272,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -276,8 +302,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -306,8 +332,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -336,8 +362,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -383,8 +409,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -413,8 +439,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -443,8 +469,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -473,8 +499,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -519,8 +545,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -549,8 +575,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -579,8 +605,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
@@ -609,8 +635,8 @@ const FavoriteScreen = ({ navigation, data, update }) => {
                 <View style={styles.favItemContent}>
                   <View style={styles.contentHeader}>
                     <View style={{ flexDirection: "row" }}>
-                      <Category name={"음식"}></Category>
-                      <Category name={"양식"}></Category>
+                      <SelectedCategory name={"음식"}></SelectedCategory>
+                      <SelectedCategory name={"양식"}></SelectedCategory>
                     </View>
                     <View style={{ flexDirection: "row" }}>
                       <Category name={"인증O"}></Category>
