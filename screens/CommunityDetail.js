@@ -17,6 +17,11 @@ import FilledHeart from "../components/FilledHeart";
 import UnfilledHeart from "../components/UnfilledHeart";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ToggleIcon } from "../ToggleIcon";
+import StorePreviewItemNoRadius from "../components/storePreview/StorePreviewItemNoRadius";
+import ContentBox from "../components/ContentBox";
+import CommunityFooterBox from "../components/CommunityFooterBox";
+import AuthorBox from "../components/AuthorBox";
+import CommentsBox from "../components/CommentsBox";
 const CommunityDetail = ({ navigation, route }) => {
   // const update = route.params.update;
   //   const [curStore, setCurStore] = useState(route.params.data);
@@ -64,39 +69,28 @@ const CommunityDetail = ({ navigation, route }) => {
                   resizeMode="cover"
                 /> */}
       </View>
-      <View style={styles.favItemBox}>
-        <View style={styles.favItem}>
-          <View style={styles.icon}>
-            <Image
-              source={require("../assets/no-image.png")}
-              style={{
-                height: "100%",
-                width: "100%",
-                borderRadius: 3,
-                borderWidth: 2,
-                borderColor: "grey",
-              }}
-            />
-          </View>
-          <View style={styles.favItemContent}>
-            <View style={styles.contentHeader}>
-              <View style={{ flexDirection: "row" }}>
-                <Category name={"음식"}></Category>
-                <Category name={"양식"}></Category>
-              </View>
-              <View style={{ flexDirection: "row" }}>
-                <Category name={"인증O"}></Category>
-                <Category name={"쿠폰O"}></Category>
-              </View>
-            </View>
-            <View style={styles.detail}>
-              <Text>☆ 레드스모크하우스</Text>
-              <Text>주소: 경기도 김포시 장기동 1902-1</Text>
-            </View>
-          </View>
+      {/* <View style={{ paddingHorizontal: 10 }}> */}
+      <View style={{ flex: 1 }}>
+        <StorePreviewItemNoRadius navigation={navigation} />
+        <AuthorBox name={"음식점"} />
+        <ContentBox />
+        <CommunityFooterBox />
+        <CommentsBox />
+        {/* <View style={styles.itemInnerContent}>
+          <Text>
+            이 식당을 강력하게 추천 드리고 싶어요. 사장님이 정말
+            친절하셔서요.휠체어가 다니기 좋아요.
+          </Text>
         </View>
+        <View style={styles.itemFooterBar}>
+          <Text style={styles.itemFooter}>공감</Text>
+          <Text style={styles.itemFooter}>댓글</Text>
+          <Text style={styles.itemFooter}>작성자</Text>
+          <Text style={styles.itemFooter}>얼마 전</Text>
+        </View> */}
       </View>
-      <View style={styles.footer}>
+
+      {/* <View style={styles.footer}>
         <ToggleIcon First={UnfilledHeart} Second={FilledHeart} />
         <TouchableOpacity
           style={styles.button}
@@ -113,7 +107,7 @@ const CommunityDetail = ({ navigation, route }) => {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>공감하기</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -121,9 +115,8 @@ const CommunityDetail = ({ navigation, route }) => {
 export default CommunityDetail;
 
 const styles = StyleSheet.create({
-  pageContainer: { flex: 1, backgroundColor: "#fff" },
-  imageContainer: { flex: 1 },
-  detailContainer: { flex: 5 },
+  pageContainer: { flex: 1 },
+
   visitLog: { flex: 1, paddingHorizontal: 20 },
   // cardHeaderElement: {
   //   // width: 44,
@@ -173,7 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
 
-    borderTopWidth: 1,
+    // borderTopWidth: 1,
     // borderBotomColor: "#cccccc",
     padding: 16,
   },
@@ -212,5 +205,36 @@ const styles = StyleSheet.create({
   icon: {
     height: "75%",
     width: "30%",
+  },
+  contentHeader: {
+    flexDirection: "row",
+    alignItems: "space-between",
+    justifyContent: "space-between",
+    marginTop: -2,
+    marginBottom: 20,
+  },
+  detail: {
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+  },
+  favItemContent: {
+    marginLeft: 20,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  itemFooterBar: {
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+    alignItems: "space-between",
+    padding: 5,
+  },
+  itemFooter: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  itemInnerContent: {
+    // borderWidth: 1,
+    padding: 5,
   },
 });
