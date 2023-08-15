@@ -189,6 +189,7 @@ const BottomTabNavigationApp = ({ navigation }) => {
               </Text>
             </View>
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
